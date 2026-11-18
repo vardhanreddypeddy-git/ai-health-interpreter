@@ -1,6 +1,6 @@
-# AI Health Interpreter & Predictive Risk Analyzer
+# AI Health Report Interpreter
 
-An intelligent, multilingual medical lab report interpreter and disease risk prediction platform. Transforms complex clinical laboratory reports (CBC, Lipid Panel, Metabolic Profiles, Liver & Kidney Function) into clear, patient-friendly explanations, multi-disease risk stratification scores, and customized doctor consultation checklists in 10 languages.
+An educational, multilingual prototype that extracts supported biomarkers from lab-report text or digital PDFs and explains the results in patient-friendly language. Its risk scores are rule-based demonstrations, not validated probabilities or medical diagnoses.
 
 ---
 
@@ -11,26 +11,26 @@ An intelligent, multilingual medical lab report interpreter and disease risk pre
    - Extracts observed numbers, units, reference intervals, and patient demographics.
    - Maps values against clinical reference intervals (Normal, Borderline, High, Low, Critical High, Critical Low).
 
-2. **Multi-Disease Predictive Risk Stratification**:
-   - **Cardiovascular Atherogenic Risk (0–100%)**: Evaluates Total Cholesterol, LDL, HDL, Triglycerides, and cardiac ratios.
-   - **Type-2 Diabetes & Metabolic Syndrome Risk (0–100%)**: Evaluates Fasting Glucose and Glycated Hemoglobin (HbA1c).
-   - **Kidney (Renal) Filtration Risk (0–100%)**: Assesses eGFR filtration rate stages and Serum Creatinine.
-   - **Liver (Hepatic) Function Risk (0–100%)**: Analyzes ALT (SGPT), AST (SGOT), Bilirubin, and Alkaline Phosphatase.
-   - **Hematology & Anemia Risk (0–100%)**: Evaluates Hemoglobin, MCV, Ferritin, and Platelet status.
-   - **Overall Health Index (0–100)**: Composite health score with urgency level indicator.
+2. **Rule-Based Health Scores (not diagnostic or clinically validated)**:
+   - Illustrative cardiovascular, metabolic, kidney, liver, and anemia scores based on hard-coded thresholds.
+   - An overall wellness index and urgency label intended for demonstration only; scores are not calibrated disease probabilities.
 
 3. **Multilingual Translation & Accessibility**:
-   - Instant translation across **10 languages**:
+   - Instant translation across **14 languages**:
      - English (US) 🇺🇸
-     - Spanish (Español) 🇪🇸
+     - Telugu (తెలుగు) 🇮🇳
      - Hindi (हिन्दी) 🇮🇳
+     - Tamil (தமிழ்) 🇮🇳
+     - Kannada (ಕನ್ನಡ) 🇮🇳
+     - Malayalam (മലയാളം) 🇮🇳
+     - Marathi (मराठी) 🇮🇳
+     - Gujarati (ગુજરાતી) 🇮🇳
+     - Bengali (বাংলা) 🇮🇳
+     - Spanish (Español) 🇪🇸
      - French (Français) 🇫🇷
      - German (Deutsch) 🇩🇪
      - Mandarin Chinese (中文) 🇨🇳
      - Arabic (العربية) 🇸🇦
-     - Bengali (বাংলা) 🇧🇩
-     - Portuguese (Português) 🇧🇷
-     - Russian (Русский) 🇷🇺
    - **Text-to-Speech (TTS) Voice Narration**: Reads findings aloud using Web Speech API in the user's selected language.
 
 4. **Doctor-Ready Questions & Lifestyle Guidance**:
@@ -40,7 +40,7 @@ An intelligent, multilingual medical lab report interpreter and disease risk pre
 
 5. **Interactive AI Health Assistant**:
    - Interactive Q&A chat assistant for questions like *"What does high LDL mean for me?"* or *"What food should I eat?"*
-   - Includes optional Google Gemini API key integration for custom LLM responses.
+   - Includes optional Google Gemini API key integration for custom responses. If enabled, report details included in a prompt are sent to Google; do not enter identifiable or sensitive health information unless that use is approved.
 
 6. **5 Built-In Realistic Clinical Test Cases**:
    - Cardiovascular & Lipid Risk Profile
@@ -51,25 +51,78 @@ An intelligent, multilingual medical lab report interpreter and disease risk pre
 
 ---
 
+## 🏗️ System Architecture
+
+```
+[ User / Lab Report Text or Digital PDF ]
+                       │
+                       ▼
+┌─────────────────────────────────────────┐
+│ React + Vite browser application        │
+│ PDF.js text extraction; no scanned OCR  │
+└───────────────────┬─────────────────────┘
+                    │ Clerk session token
+                    ▼
+┌─────────────────────────────────────────┐
+│ Firebase HTTPS Function                 │
+│ Verifies Clerk token; uses Admin SDK    │
+│ Stores each user's reports separately  │
+└───────────────────┬─────────────────────┘
+                    │
+                    ▼
+┌─────────────────────────────────────────┐
+│ Cloud Firestore                         │
+│ Direct browser access denied by rules   │
+└─────────────────────────────────────────┘
+```
+
+---
+
 ## 🚀 How to Run
 
 ### Prerequisites
-- Node.js (v18+ or v26+) and npm installed.
+- Node.js 20+ and npm for the web app. Firebase Functions deploy with the Node.js 22 runtime.
 
 ### Quick Start
 ```bash
-# 1. Navigate to the project directory
-cd C:\Users\DELL\.gemini\antigravity\scratch\ai-health-interpreter
+# Install web dependencies
+npm install
 
-# 2. Start the development server
+# Copy the example environment file and fill in your Clerk publishable key
+# On Windows PowerShell:
+Copy-Item .env.example .env.local
+
+# Start the development server
 npm run dev
-
-# Or build and preview production bundle:
-npm run build
-npm run preview
 ```
 
-Open `http://localhost:3000` (or the port displayed in your terminal) in your browser.
+In another terminal, build the production bundle:
+```bash
+npm run build
+```
+
+Open `http://localhost:3000`. To use saved reports, configure and deploy the Firebase Functions API below, then set `VITE_REPORTS_API_URL` in `.env.local`.
+Run the Functions payload tests with `npm --prefix functions test`.
+
+### Configure Clerk and Firebase report storage
+
+1. Create a Clerk application and set its publishable key as `VITE_CLERK_PUBLISHABLE_KEY`.
+2. Create a Firebase project and enable Cloud Firestore.
+3. Log in to Firebase CLI, select the project, and install the Functions dependencies:
+   ```bash
+   npx firebase-tools login
+   npx firebase-tools use --add
+   npm --prefix functions install
+   ```
+   Deploying Cloud Functions requires a Firebase plan that supports Functions and billing for any applicable usage.
+4. Configure `ALLOWED_ORIGINS` in `functions/.env.<project-id>` with the exact local and production app origins, separated by commas. Store the Clerk secret in Firebase Secret Manager and deploy:
+   ```bash
+   npx firebase-tools functions:secrets:set CLERK_SECRET_KEY
+   npx firebase-tools deploy --only functions,firestore:rules
+   ```
+5. Copy the deployed `reports` function URL into `VITE_REPORTS_API_URL` in `.env.local`, then restart the web app.
+
+The browser sends Clerk session tokens to the HTTPS Function. The Function verifies the token and stores reports under that Clerk user ID. Firestore rules deny direct client reads and writes; the Admin SDK in the Function bypasses those rules. Keep `CLERK_SECRET_KEY` in Firebase Secret Manager and never commit it. The Firebase/Clerk direct integration is deprecated and is not used by this project. Redeploy after changing `ALLOWED_ORIGINS`.
 
 ---
 
@@ -80,6 +133,9 @@ ai-health-interpreter/
 ├── index.html                  # HTML entry point with Tailwind CDN & typography
 ├── package.json                # Project dependencies and npm scripts
 ├── vite.config.js              # Vite configuration
+├── firebase.json               # Firebase Functions and Firestore rules configuration
+├── firestore.rules             # Denies direct browser database access
+├── functions/                  # Clerk-verifying Firebase HTTPS API
 ├── test-reports/               # Realistic sample lab report text files
 │   ├── cardio-risk-report.txt
 │   ├── diabetes-report.txt
@@ -90,7 +146,7 @@ ai-health-interpreter/
 │   ├── data/
 │   │   ├── biomarkers.js       # 30+ Biomarker database, ranges & clinical tips
 │   │   ├── sampleReports.js    # Preloaded authentic clinical cases
-│   │   └── translations.js     # 10-language localization dictionary
+│   │   └── translations.js     # 14-language localization dictionary
 │   ├── utils/
 │   │   ├── reportParser.js     # Biomarker matching & regex extractor
 │   │   ├── riskEngine.js       # Multi-disease risk calculator & synthesis
@@ -110,3 +166,5 @@ ai-health-interpreter/
 
 ## ⚖️ Safety & Clinical Disclaimer
 This system is an assistive educational tool designed to promote patient health literacy and facilitate doctor-patient communication. It is not an automated medical diagnostic tool and does not provide prescriptions or treatment plans. Patients must always review findings with a licensed healthcare practitioner.
+
+The risk scores are hard-coded heuristics and are not clinically validated. Before using cloud storage with real patient information, complete a privacy, security, retention, and regulatory review for your jurisdiction. The optional Gemini chat sends report context to Google when a user supplies a Gemini API key.
