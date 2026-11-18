@@ -170,22 +170,21 @@ export function HostingGuideModal({ isOpen, onClose }) {
               <div className="p-4 rounded-xl bg-emerald-50/70 border border-emerald-200">
                 <div className="flex items-center space-x-2 text-emerald-900 font-bold mb-1">
                   <ShieldCheck className="w-4 h-4 text-emerald-600" />
-                  <span>Tier 1: On-Device Secure LocalStorage (Built-In & Active)</span>
+                  <span>Account-scoped Firebase report storage</span>
                 </div>
                 <p className="text-xs text-emerald-800 leading-relaxed">
-                  The application is already wired with local client-side storage. Whenever you click "Save to My Reports", patient records, lab findings, and risk indices are saved directly into the user's browser. No private medical data leaves the user's computer, ensuring privacy compliance.
+                  Saved reports are sent to a Firebase HTTPS Function with a Clerk session token. The Function verifies the session and stores reports under that user's account. Configure and deploy the Function before enabling cloud saves; do not use real patient information until privacy and compliance requirements have been reviewed.
                 </p>
               </div>
 
               <div className="p-4 rounded-xl bg-slate-50 border border-slate-200">
                 <h4 className="font-bold text-slate-900 mb-2 flex items-center space-x-2">
                   <Database className="w-4 h-4 text-clinical-600" />
-                  <span>Tier 2: Relational Cloud Database Options</span>
+                  <span>Other storage integrations</span>
                 </h4>
                 <ul className="space-y-2 text-xs text-slate-600">
-                  <li>• <strong>Supabase (PostgreSQL)</strong>: Ideal for multi-user authentication, storing structured biomarker rows, and PDF file buckets.</li>
-                  <li>• <strong>Firebase Firestore</strong>: Document-based real-time database with Google Cloud Storage for report PDFs.</li>
-                  <li>• <strong>AWS S3 / Cloudflare R2</strong>: Secure storage buckets for original scanned report images and generated patient summary PDFs.</li>
+                  <li>• <strong>Supabase (PostgreSQL)</strong>: A possible alternative backend for structured reports.</li>
+                  <li>• <strong>AWS S3 / Cloudflare R2</strong>: Possible object storage options for report files.</li>
                 </ul>
               </div>
             </div>

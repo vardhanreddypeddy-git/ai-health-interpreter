@@ -1,5 +1,6 @@
 /**
- * Multi-Disease Predictive Health Risk Engine & Clinical Synthesizer
+ * Health Risk Analysis Engine & Clinical Synthesizer
+ * Calm, non-panic language. 4 visible categories + internal kidney/liver for overall score.
  */
 
 export function calculateHealthRisks(biomarkers, patient = {}) {
@@ -8,8 +9,8 @@ export function calculateHealthRisks(biomarkers, patient = {}) {
     bioMap[b.id] = b;
   });
 
-  // 1. Cardiovascular Atherogenic Risk (0 - 100)
-  let cardioScore = 15; // baseline low risk
+  // 1. Cardiovascular Health (0 - 100, displayed)
+  let cardioScore = 15;
   const cardioFactors = [];
 
   const ldl = bioMap['LDL_CHOLESTEROL']?.value;
@@ -19,34 +20,34 @@ export function calculateHealthRisks(biomarkers, patient = {}) {
   const cholRatio = bioMap['CHOL_HDL_RATIO']?.value;
 
   if (ldl) {
-    if (ldl >= 160) { cardioScore += 35; cardioFactors.push('Significantly elevated LDL (atherogenic cholesterol)'); }
-    else if (ldl >= 130) { cardioScore += 20; cardioFactors.push('Elevated LDL cholesterol'); }
-    else if (ldl >= 100) { cardioScore += 10; cardioFactors.push('Borderline LDL level'); }
+    if (ldl >= 160) { cardioScore += 35; cardioFactors.push('LDL cholesterol is quite high — discuss with your doctor'); }
+    else if (ldl >= 130) { cardioScore += 20; cardioFactors.push('LDL cholesterol is above the recommended range'); }
+    else if (ldl >= 100) { cardioScore += 10; cardioFactors.push('LDL cholesterol is at the borderline level'); }
   }
 
   if (tc) {
-    if (tc >= 240) { cardioScore += 20; cardioFactors.push('High Total Serum Cholesterol'); }
-    else if (tc >= 200) { cardioScore += 10; cardioFactors.push('Borderline high Total Cholesterol'); }
+    if (tc >= 240) { cardioScore += 20; cardioFactors.push('Total cholesterol is higher than recommended'); }
+    else if (tc >= 200) { cardioScore += 10; cardioFactors.push('Total cholesterol is at the borderline level'); }
   }
 
   if (hdl) {
-    if (hdl < 40) { cardioScore += 20; cardioFactors.push('Low protective HDL cholesterol'); }
-    else if (hdl >= 60) { cardioScore -= 10; cardioFactors.push('Optimal protective HDL levels'); }
+    if (hdl < 40) { cardioScore += 20; cardioFactors.push('Protective HDL cholesterol is low'); }
+    else if (hdl >= 60) { cardioScore -= 10; cardioFactors.push('HDL (good cholesterol) is at a healthy level'); }
   }
 
   if (tg) {
-    if (tg >= 200) { cardioScore += 15; cardioFactors.push('Elevated blood triglycerides'); }
-    else if (tg >= 150) { cardioScore += 8; cardioFactors.push('Borderline triglycerides'); }
+    if (tg >= 200) { cardioScore += 15; cardioFactors.push('Triglycerides are elevated'); }
+    else if (tg >= 150) { cardioScore += 8; cardioFactors.push('Triglycerides are at the borderline level'); }
   }
 
   if (cholRatio && cholRatio > 5.0) {
     cardioScore += 15;
-    cardioFactors.push('Unfavorable Total Cholesterol / HDL ratio');
+    cardioFactors.push('Cholesterol-to-HDL ratio needs attention');
   }
 
   cardioScore = Math.min(Math.max(cardioScore, 5), 98);
 
-  // 2. Type-2 Diabetes & Metabolic Risk (0 - 100)
+  // 2. Diabetes Risk Assessment (0 - 100, displayed)
   let metabolicScore = 12;
   const metabolicFactors = [];
 
@@ -54,25 +55,25 @@ export function calculateHealthRisks(biomarkers, patient = {}) {
   const fbs = bioMap['FASTING_GLUCOSE']?.value;
 
   if (hba1c) {
-    if (hba1c >= 8.0) { metabolicScore += 65; metabolicFactors.push(`Critical Glycated Hemoglobin (HbA1c ${hba1c}% indicates persistent hyperglycemia)`); }
-    else if (hba1c >= 6.5) { metabolicScore += 50; metabolicFactors.push(`HbA1c ${hba1c}% meets clinical threshold for Diabetes Mellitus`); }
-    else if (hba1c >= 5.7) { metabolicScore += 25; metabolicFactors.push(`HbA1c ${hba1c}% indicates Pre-diabetes`); }
-    else { metabolicFactors.push('HbA1c in normal glycemic range'); }
+    if (hba1c >= 8.0) { metabolicScore += 65; metabolicFactors.push(`HbA1c is ${hba1c}% — blood sugar has been high for a while, please see your doctor`); }
+    else if (hba1c >= 6.5) { metabolicScore += 50; metabolicFactors.push(`HbA1c is ${hba1c}% — in the diabetes range, your doctor can help manage this`); }
+    else if (hba1c >= 5.7) { metabolicScore += 25; metabolicFactors.push(`HbA1c is ${hba1c}% — in the pre-diabetes range, worth discussing with your doctor`); }
+    else { metabolicFactors.push('HbA1c is in the healthy blood sugar range'); }
   }
 
   if (fbs) {
-    if (fbs >= 126) { metabolicScore += 35; metabolicFactors.push(`Fasting Glucose (${fbs} mg/dL) exceeds diabetes threshold`); }
-    else if (fbs >= 100) { metabolicScore += 18; metabolicFactors.push(`Impaired Fasting Glucose (${fbs} mg/dL) indicating insulin resistance`); }
+    if (fbs >= 126) { metabolicScore += 35; metabolicFactors.push(`Fasting blood sugar (${fbs} mg/dL) is above normal — please consult your doctor`); }
+    else if (fbs >= 100) { metabolicScore += 18; metabolicFactors.push(`Fasting blood sugar (${fbs} mg/dL) is slightly elevated`); }
   }
 
   if (tg && tg >= 200) {
     metabolicScore += 10;
-    metabolicFactors.push('Hypertriglyceridemia associated with insulin resistance');
+    metabolicFactors.push('Elevated triglycerides are associated with insulin sensitivity');
   }
 
   metabolicScore = Math.min(Math.max(metabolicScore, 5), 98);
 
-  // 3. Kidney (Renal) Risk (0 - 100)
+  // 3. Kidney Function (internal only — contributes to overall score, not shown as card)
   let kidneyScore = 10;
   const kidneyFactors = [];
 
@@ -82,30 +83,30 @@ export function calculateHealthRisks(biomarkers, patient = {}) {
   const uric = bioMap['URIC_ACID']?.value;
 
   if (egfr) {
-    if (egfr < 30) { kidneyScore += 70; kidneyFactors.push('Severe reduction in glomerular filtration rate (< 30 mL/min)'); }
-    else if (egfr < 60) { kidneyScore += 45; kidneyFactors.push('eGFR below 60 mL/min indicates moderate Chronic Kidney Disease (CKD)'); }
-    else if (egfr < 90) { kidneyScore += 15; kidneyFactors.push('Mildly decreased eGFR'); }
-    else { kidneyFactors.push('Optimal kidney filtration rate'); }
+    if (egfr < 30) { kidneyScore += 70; kidneyFactors.push('Kidney filtration rate is significantly reduced'); }
+    else if (egfr < 60) { kidneyScore += 45; kidneyFactors.push('Kidney filtration rate is moderately reduced'); }
+    else if (egfr < 90) { kidneyScore += 15; kidneyFactors.push('Kidney filtration rate is mildly reduced'); }
+    else { kidneyFactors.push('Kidney filtration rate is healthy'); }
   }
 
   if (creat) {
-    if (creat >= 2.0) { kidneyScore += 35; kidneyFactors.push('Elevated Serum Creatinine indicates impaired renal excretion'); }
-    else if (creat > 1.2) { kidneyScore += 20; kidneyFactors.push('Serum Creatinine above normal baseline'); }
+    if (creat >= 2.0) { kidneyScore += 35; kidneyFactors.push('Creatinine is elevated — kidney function needs attention'); }
+    else if (creat > 1.2) { kidneyScore += 20; kidneyFactors.push('Creatinine is slightly above normal'); }
   }
 
   if (bun && bun > 20) {
     kidneyScore += 12;
-    kidneyFactors.push('Elevated Blood Urea Nitrogen (BUN)');
+    kidneyFactors.push('Blood Urea Nitrogen (BUN) is elevated');
   }
 
   if (uric && uric > 7.2) {
     kidneyScore += 10;
-    kidneyFactors.push('Elevated Uric Acid (Hyperuricemia / gout risk)');
+    kidneyFactors.push('Uric acid is elevated');
   }
 
   kidneyScore = Math.min(Math.max(kidneyScore, 5), 98);
 
-  // 4. Liver (Hepatic) Function Risk (0 - 100)
+  // 4. Liver Function (internal only — contributes to overall score, not shown as card)
   let liverScore = 10;
   const liverFactors = [];
 
@@ -116,33 +117,33 @@ export function calculateHealthRisks(biomarkers, patient = {}) {
   const alb = bioMap['ALBUMIN']?.value;
 
   if (alt) {
-    if (alt >= 100) { liverScore += 45; liverFactors.push('Significantly high ALT indicates active liver inflammation'); }
-    else if (alt > 45) { liverScore += 25; liverFactors.push('Elevated ALT transaminase enzyme'); }
+    if (alt >= 100) { liverScore += 45; liverFactors.push('ALT enzyme is significantly elevated — liver needs attention'); }
+    else if (alt > 45) { liverScore += 25; liverFactors.push('ALT liver enzyme is slightly elevated'); }
   }
 
   if (ast) {
-    if (ast >= 100) { liverScore += 30; liverFactors.push('High AST transaminase'); }
-    else if (ast > 40) { liverScore += 18; liverFactors.push('Elevated AST'); }
+    if (ast >= 100) { liverScore += 30; liverFactors.push('AST enzyme is significantly elevated'); }
+    else if (ast > 40) { liverScore += 18; liverFactors.push('AST liver enzyme is slightly elevated'); }
   }
 
   if (bili && bili > 1.2) {
     liverScore += 20;
-    liverFactors.push('Elevated Total Bilirubin (bile excretion / hemolysis flag)');
+    liverFactors.push('Total bilirubin is elevated');
   }
 
   if (alp && alp > 147) {
     liverScore += 15;
-    liverFactors.push('Elevated Alkaline Phosphatase (biliary or bone involvement)');
+    liverFactors.push('Alkaline phosphatase is elevated');
   }
 
   if (alb && alb < 3.5) {
     liverScore += 20;
-    liverFactors.push('Low Serum Albumin indicates reduced hepatic synthesis or protein loss');
+    liverFactors.push('Serum albumin is low');
   }
 
   liverScore = Math.min(Math.max(liverScore, 5), 98);
 
-  // 5. Hematology & Anemia Risk (0 - 100)
+  // 5. Anemia Detection (0 - 100, displayed)
   let anemiaScore = 10;
   const anemiaFactors = [];
 
@@ -153,40 +154,40 @@ export function calculateHealthRisks(biomarkers, patient = {}) {
   const plt = bioMap['PLATELET_COUNT']?.value;
 
   if (hb) {
-    if (hb < 10.0) { anemiaScore += 60; anemiaFactors.push(`Critical Hemoglobin (${hb} g/dL): Moderate-to-severe Anemia`); }
-    else if (hb < 12.0) { anemiaScore += 35; anemiaFactors.push(`Low Hemoglobin (${hb} g/dL): Mild Anemia`); }
-    else { anemiaFactors.push('Hemoglobin level in healthy oxygen-carrying range'); }
+    if (hb < 10.0) { anemiaScore += 60; anemiaFactors.push(`Hemoglobin is ${hb} g/dL — low enough to need a doctor's review`); }
+    else if (hb < 12.0) { anemiaScore += 35; anemiaFactors.push(`Hemoglobin is ${hb} g/dL — mildly low, worth discussing with your doctor`); }
+    else { anemiaFactors.push('Hemoglobin is in the healthy range'); }
   }
 
   if (ferritin && ferritin < 15) {
     anemiaScore += 30;
-    anemiaFactors.push('Severely depleted iron stores (Serum Ferritin < 15 ng/mL)');
+    anemiaFactors.push('Iron stores (ferritin) are low');
   }
 
   if (mcv) {
-    if (mcv < 80) { anemiaScore += 15; anemiaFactors.push('Microcytosis (small red blood cells, common in iron deficiency)'); }
-    else if (mcv > 100) { anemiaScore += 15; anemiaFactors.push('Macrocytosis (large red blood cells, common in B12/folate deficiency)'); }
+    if (mcv < 80) { anemiaScore += 15; anemiaFactors.push('Red blood cells are smaller than normal (may indicate iron deficiency)'); }
+    else if (mcv > 100) { anemiaScore += 15; anemiaFactors.push('Red blood cells are larger than normal (may indicate B12 or folate needs)'); }
   }
 
   if (wbc) {
-    if (wbc > 11000) { anemiaScore += 15; anemiaFactors.push('Elevated WBC suggests acute infection or inflammation'); }
-    else if (wbc < 4000) { anemiaScore += 20; anemiaFactors.push('Low WBC (leukopenia) indicates reduced immune reserve'); }
+    if (wbc > 11000) { anemiaScore += 15; anemiaFactors.push('White blood cell count is elevated — may indicate infection or inflammation'); }
+    else if (wbc < 4000) { anemiaScore += 20; anemiaFactors.push('White blood cell count is low — worth discussing immunity with your doctor'); }
   }
 
   if (plt && plt < 150) {
     anemiaScore += 20;
-    anemiaFactors.push('Thrombocytopenia (low platelets) can increase bruising or bleeding tendencies');
+    anemiaFactors.push('Platelet count is low — your doctor can review this');
   }
 
   anemiaScore = Math.min(Math.max(anemiaScore, 5), 98);
 
-  // Overall Health Index (100 is perfect, penalties reduce it)
+  // Overall Wellness Score (100 = excellent, reduced by risk scores)
   const maxRisk = Math.max(cardioScore, metabolicScore, kidneyScore, liverScore, anemiaScore);
   const avgRisk = (cardioScore + metabolicScore + kidneyScore + liverScore + anemiaScore) / 5;
   const penalty = (maxRisk * 0.6) + (avgRisk * 0.4);
   const overallIndex = Math.max(Math.round(100 - penalty + 10), 15);
 
-  // Determine overall severity
+  // Overall status label
   let overallUrgency = 'optimal';
   if (overallIndex < 40 || maxRisk >= 70) {
     overallUrgency = 'critical';
@@ -198,31 +199,18 @@ export function calculateHealthRisks(biomarkers, patient = {}) {
     overallUrgency = 'low';
   }
 
-  // Generate Doctor Questions
+  const wellnessScore = overallIndex;
+
   const doctorQuestions = generateDoctorQuestions(biomarkers, {
-    cardioScore,
-    metabolicScore,
-    kidneyScore,
-    liverScore,
-    anemiaScore
+    cardioScore, metabolicScore, kidneyScore, liverScore, anemiaScore
   });
 
-  // Generate Lifestyle & Diet Recommendations
   const lifestyleRecommendations = generateLifestyleRecommendations(biomarkers, {
-    cardioScore,
-    metabolicScore,
-    kidneyScore,
-    liverScore,
-    anemiaScore
+    cardioScore, metabolicScore, kidneyScore, liverScore, anemiaScore
   });
 
-  // Clinical Summary Text
   const clinicalSummary = generateClinicalSummary(overallUrgency, overallIndex, {
-    cardioScore,
-    metabolicScore,
-    kidneyScore,
-    liverScore,
-    anemiaScore
+    cardioScore, metabolicScore, kidneyScore, liverScore, anemiaScore
   }, biomarkers);
 
   return {
@@ -230,11 +218,12 @@ export function calculateHealthRisks(biomarkers, patient = {}) {
     overallUrgency,
     clinicalSummary,
     risks: {
-      cardio: { score: cardioScore, factors: cardioFactors },
+      cardio:    { score: cardioScore,    factors: cardioFactors },
       metabolic: { score: metabolicScore, factors: metabolicFactors },
-      kidney: { score: kidneyScore, factors: kidneyFactors },
-      liver: { score: liverScore, factors: liverFactors },
-      anemia: { score: anemiaScore, factors: anemiaFactors }
+      kidney:    { score: kidneyScore,    factors: kidneyFactors },
+      liver:     { score: liverScore,     factors: liverFactors },
+      anemia:    { score: anemiaScore,    factors: anemiaFactors },
+      wellness:  { score: wellnessScore,  factors: [] }
     },
     doctorQuestions,
     lifestyleRecommendations
@@ -243,24 +232,27 @@ export function calculateHealthRisks(biomarkers, patient = {}) {
 
 function generateClinicalSummary(urgency, score, riskScores, biomarkers) {
   const abnormalCount = biomarkers.filter(b => b.status !== 'NORMAL').length;
-  const criticalCount = biomarkers.filter(b => b.status === 'CRITICAL_HIGH' || b.status === 'CRITICAL_LOW').length;
 
   if (urgency === 'optimal') {
-    return 'Your laboratory biomarkers reflect excellent physiological stability. Cardiac lipids, metabolic glycemic indices, renal clearance, and liver enzymes all reside within optimal standard reference intervals. Continue your preventative wellness routines.';
+    return 'Great news — your biomarkers look well-balanced overall! Cholesterol, blood sugar, and blood count values are all within healthy ranges. Keep up your wellness habits and schedule a routine check-up as your doctor recommends.';
   }
 
   const primaryConcerns = [];
-  if (riskScores.cardioScore >= 40) primaryConcerns.push('atherogenic cardiovascular lipid burden');
-  if (riskScores.metabolicScore >= 40) primaryConcerns.push('impaired glycemic regulation / diabetes risk');
-  if (riskScores.kidneyScore >= 40) primaryConcerns.push('decreased renal filtration rate');
-  if (riskScores.liverScore >= 40) primaryConcerns.push('hepatocellular liver transaminase stress');
-  if (riskScores.anemiaScore >= 40) primaryConcerns.push('hematologic oxygenation deficit / anemia');
+  if (riskScores.cardioScore >= 40) primaryConcerns.push('cholesterol or heart health markers');
+  if (riskScores.metabolicScore >= 40) primaryConcerns.push('blood sugar or diabetes-related markers');
+  if (riskScores.kidneyScore >= 40) primaryConcerns.push('kidney function markers');
+  if (riskScores.liverScore >= 40) primaryConcerns.push('liver enzyme markers');
+  if (riskScores.anemiaScore >= 40) primaryConcerns.push('blood count or iron-related markers');
 
-  const concernsText = primaryConcerns.length > 0 
-    ? `The primary focal areas identified are: ${primaryConcerns.join(', ')}.`
-    : 'Mild variances across isolated biomarkers were observed.';
+  const concernsText = primaryConcerns.length > 0
+    ? `The main areas to review with your doctor are: ${primaryConcerns.join(', ')}.`
+    : 'A few values are outside the typical range.';
 
-  return `Analysis identified ${abnormalCount} biomarker(s) outside optimal ranges${criticalCount > 0 ? `, including ${criticalCount} critical flag(s)` : ''}. ${concernsText} A structured review with your physician is strongly recommended to confirm diagnoses, adjust therapeutic management, and repeat confirmatory panels.`;
+  if (urgency === 'critical') {
+    return `This report shows ${abnormalCount} value(s) outside the normal range that need attention soon. ${concernsText} Please schedule a visit with your doctor to review these results — they will be able to explain what steps make sense for you.`;
+  }
+
+  return `This report shows ${abnormalCount} value(s) that are outside the typical range. ${concernsText} Sharing this report with your doctor is a good next step — they can provide personalized guidance.`;
 }
 
 function generateDoctorQuestions(biomarkers, riskScores) {
@@ -268,60 +260,59 @@ function generateDoctorQuestions(biomarkers, riskScores) {
 
   if (riskScores.cardioScore >= 40) {
     questions.push({
-      topic: 'Cardiovascular & Lipids',
-      question: 'Given my elevated LDL / Total Cholesterol and lipid ratios, would you recommend initiating lipid-lowering therapy (e.g., statins) or would you prefer a 3-month trial of targeted cardiovascular nutrition?',
-      rationale: 'Clarifies whether medical pharmacotherapy or lifestyle modification is the appropriate first line.'
+      topic: 'Heart Health & Cholesterol',
+      question: 'My cholesterol or lipid levels are higher than normal. What lifestyle changes or treatments would you recommend, and how soon should I retest?',
+      rationale: 'Helps you understand whether diet changes, medication, or further testing are needed.'
     });
     questions.push({
-      topic: 'Coronary Calcium & Advanced Lipids',
-      question: 'Should we perform a Coronary Artery Calcium (CAC) scan or check Apolipoprotein B (ApoB) and hs-CRP to more precisely gauge arterial plaque risk?',
-      rationale: 'Advanced biomarkers provide deeper insight than standard lipid panels alone.'
+      topic: 'Cardiovascular Checks',
+      question: 'Are there any additional heart health tests that might be useful given my lipid results?',
+      rationale: 'Gives your doctor the chance to recommend further evaluation if appropriate.'
     });
   }
 
   if (riskScores.metabolicScore >= 40) {
     questions.push({
-      topic: 'Diabetes & Glucose Control',
-      question: 'My HbA1c / fasting glucose indicates significant insulin resistance or diabetes. What target HbA1c goal should we establish for the next 90 days?',
-      rationale: 'Establishes clear clinical targets to monitor therapeutic efficacy.'
+      topic: 'Blood Sugar Management',
+      question: 'My blood sugar or HbA1c is elevated. What target should I aim for, and what changes would help me get there?',
+      rationale: 'Sets clear goals and a plan for managing blood sugar levels.'
     });
     questions.push({
-      topic: 'Diabetic Screenings',
-      question: 'Do I need baseline referrals for an annual dilated retinal eye exam and urine microalbumin-to-creatinine ratio (ACR) to protect my kidneys and vision?',
-      rationale: 'Essential standard-of-care preventative screenings for elevated glycemic markers.'
+      topic: 'Diabetes Follow-up',
+      question: 'Are there any routine follow-up tests or screenings I should have regularly given my blood sugar results?',
+      rationale: 'Helps you stay on top of diabetes management proactively.'
     });
   }
 
   if (riskScores.kidneyScore >= 35) {
     questions.push({
-      topic: 'Renal Function',
-      question: 'My eGFR and creatinine indicate decreased filtration. Could any current medications, supplements, or dehydration be contributing, and should we repeat this test in 6 weeks?',
-      rationale: 'Differentiates acute transient kidney stress from chronic renal decline.'
+      topic: 'Kidney Function',
+      question: 'My kidney markers are outside the normal range. Could this be related to dehydration or medications, and should we recheck?',
+      rationale: 'Helps distinguish a temporary change from something that needs ongoing monitoring.'
     });
   }
 
   if (riskScores.liverScore >= 35) {
     questions.push({
       topic: 'Liver Enzymes',
-      question: 'My ALT / AST transaminases are elevated. Would you advise an abdominal ultrasound to evaluate for fatty liver infiltration (hepatic steatosis) or biliary involvement?',
-      rationale: 'Ultrasound is the non-invasive first-line imaging modality for liver enzyme elevation.'
+      question: 'My liver enzyme levels are elevated. What might be causing this, and what should I watch out for?',
+      rationale: 'Guides the next appropriate steps for liver health evaluation.'
     });
   }
 
   if (riskScores.anemiaScore >= 35) {
     questions.push({
-      topic: 'Hematology & Anemia',
-      question: 'With my low hemoglobin / ferritin, what form of iron supplementation (oral iron bisglycinate vs. infusion) is best suited for me, and should we evaluate for any hidden blood loss?',
-      rationale: 'Determines the root etiology of iron depletion and prevents recurrent anemia.'
+      topic: 'Blood Count & Iron',
+      question: 'My hemoglobin or iron levels are low. What is the best way to address this — through diet, supplements, or other treatment?',
+      rationale: 'Helps identify the right approach to improving iron and blood health.'
     });
   }
 
-  // Always include a baseline preventative question
   if (questions.length === 0) {
     questions.push({
-      topic: 'Preventative Longevity',
-      question: 'Since my current markers are within normal limits, what routine screening timeline (e.g., 12 months) do you recommend for my demographic age group?',
-      rationale: 'Helps maintain proactive preventative health maintenance.'
+      topic: 'Routine Wellness',
+      question: 'My current results look healthy. What routine checks or timeline would you recommend for my age and lifestyle?',
+      rationale: 'Helps you stay proactive about your health even when things look good.'
     });
   }
 
@@ -333,59 +324,59 @@ function generateLifestyleRecommendations(biomarkers, riskScores) {
 
   if (riskScores.cardioScore >= 35) {
     recs.push({
-      category: 'Nutrition: Heart & Lipids',
+      category: 'Heart-Healthy Eating',
       icon: 'Heart',
-      advice: 'Adopt a Mediterranean-style dietary pattern rich in soluble dietary fiber (oats, barley, beans, chia seeds) and monounsaturated fats (extra virgin olive oil, avocados, raw nuts). Limit saturated fats from fatty meats and butter to < 6% of daily calories.'
+      advice: 'Try a diet rich in fruits, vegetables, whole grains, and healthy fats (like olive oil, nuts, and avocados). Reducing saturated fats from fried foods and fatty meats can help improve cholesterol levels over time.'
     });
     recs.push({
-      category: 'Physical Activity: Cardiovascular Fitness',
+      category: 'Regular Physical Activity',
       icon: 'Activity',
-      advice: 'Target at least 150 minutes of moderate-intensity aerobic exercise (e.g., brisk walking at 4-5 km/h) or 75 minutes of vigorous cardiovascular activity per week to raise protective HDL cholesterol.'
+      advice: 'Aim for at least 30 minutes of moderate activity (brisk walking, cycling, or swimming) most days. Regular aerobic exercise helps raise protective HDL cholesterol and supports heart health.'
     });
   }
 
   if (riskScores.metabolicScore >= 35) {
     recs.push({
-      category: 'Nutrition: Glycemic Regulation',
+      category: 'Blood Sugar–Friendly Diet',
       icon: 'Apple',
-      advice: 'Replace refined carbohydrates, white breads, and sugar-sweetened beverages with complex low-glycemic foods. Always pair carbohydrates with lean protein and non-starchy vegetables to flatten glucose post-prandial spikes.'
+      advice: 'Choose whole foods over refined carbohydrates and sugary drinks. Pairing carbohydrates with protein or fiber (vegetables, legumes) helps keep blood sugar levels steadier throughout the day.'
     });
     recs.push({
-      category: 'Metabolic Conditioning',
+      category: 'Strength & Movement',
       icon: 'Dumbbell',
-      advice: 'Engage in resistance/strength training 2-3 times weekly. Skeletal muscle is the primary sink for glucose disposal and significantly improves insulin receptor sensitivity.'
+      advice: 'Adding light strength training or resistance exercises 2–3 times per week can help your body use blood sugar more efficiently. Even regular walking after meals has a positive effect.'
     });
   }
 
   if (riskScores.kidneyScore >= 30) {
     recs.push({
-      category: 'Renal Care & Hydration',
+      category: 'Hydration & Kidney Care',
       icon: 'Droplet',
-      advice: 'Maintain consistent daily hydration (unless on a physician-ordered fluid restriction). Limit dietary sodium to < 2,000 mg/day and avoid chronic, unmonitored use of NSAID painkillers (ibuprofen, naproxen).'
+      advice: 'Staying well hydrated supports kidney function. Try to limit very salty or processed foods. Avoid taking pain relievers (like ibuprofen) regularly without doctor advice, as they can affect kidneys over time.'
     });
   }
 
   if (riskScores.liverScore >= 30) {
     recs.push({
-      category: 'Hepatic Protection',
+      category: 'Supporting Liver Health',
       icon: 'Shield',
-      advice: 'Strictly avoid or eliminate alcohol consumption. Minimize intake of high-fructose corn syrup and ultra-processed foods. Be cautious with unverified herbal wellness supplements.'
+      advice: 'Limiting or avoiding alcohol, cutting down on sugary and ultra-processed foods, and maintaining a healthy weight all support liver health. Be cautious with herbal supplements not approved by your doctor.'
     });
   }
 
   if (riskScores.anemiaScore >= 30) {
     recs.push({
-      category: 'Iron & Oxygenation',
+      category: 'Iron & Healthy Blood',
       icon: 'Zap',
-      advice: 'Combine iron-rich food sources (spinach, lentils, lean poultry) with Vitamin C (lemon juice, bell peppers, oranges) during the same meal to dramatically amplify iron bioavailability. Avoid drinking tea or coffee within 1 hour of meals, as tannins block iron absorption.'
+      advice: 'Iron-rich foods like spinach, lentils, beans, and lean meat are helpful. Eating them with Vitamin C sources (orange juice, tomatoes, lemon) increases absorption. Try to avoid tea or coffee immediately after iron-rich meals.'
     });
   }
 
   if (recs.length === 0) {
     recs.push({
-      category: 'Optimal Wellness Maintenance',
+      category: 'Maintaining Your Good Health',
       icon: 'Sparkles',
-      advice: 'Your biomarkers are balanced! Maintain a colorful whole-food diet, prioritize 7-8 hours of restorative sleep nightly, manage daily stress with mindfulness, and keep active.'
+      advice: 'Your results look balanced — keep it up! A varied diet with colorful vegetables and fruits, regular physical activity, good sleep (7–8 hours), and stress management will help you stay in great shape.'
     });
   }
 

@@ -18,35 +18,35 @@ export const SUPPORTED_LANGUAGES = [
 
 export const TRANSLATIONS = {
   en: {
-    appTitle: 'AI Health Interpreter Report',
-    appSubtitle: 'Your Reports, Decoded by AI — Multi-Disease Risk Prediction & Patient Understanding',
-    heroTag: 'AI Clinical Report Decoder',
-    heroTitle: 'Your Reports, Decoded by AI',
-    heroSubtitle: "Our AI doesn't just read numbers — it understands context. It compares your results against medical databases, identifies risk factors, and provides personalized health recommendations.",
+    appTitle: 'AI Health Report Interpreter',
+    appSubtitle: 'Patient-friendly lab report explanations and educational health scores',
+    heroTag: 'Educational Lab Report Interpreter',
+    heroTitle: 'Understand Your Lab Report',
+    heroSubtitle: 'This prototype extracts supported results and compares them with configured reference ranges. Its rule-based scores are educational only, not diagnoses or validated disease probabilities.',
     features: {
       f1: 'Instant Blood Work Analysis',
       f2: 'Abnormal Value Detection',
       f3: 'Health Risk Scoring',
       f4: 'Personalized Recommendations'
     },
-    whyWeBuiltTitle: 'Why We Built HealthLens / AI Health Interpreter',
+    whyWeBuiltTitle: 'Why We Built AI Health Report Interpreter',
     theProblemTitle: 'The Problem We Saw',
     theProblemDesc: "Medical reports are confusing. Patients receive complex lab results filled with medical jargon, leaving them anxious and uncertain about their health. Many people can't afford frequent doctor visits just to understand their reports.",
     ourSolutionTitle: 'Our Solution',
-    ourSolutionDesc: 'We created AI Health Interpreter to democratize healthcare understanding. Using advanced AI, we translate complex medical data into clear, actionable insights that anyone can understand — instantly and for free.',
+    ourSolutionDesc: 'We created AI Health Report Interpreter to democratize healthcare understanding. Using advanced AI, we translate complex medical data into clear, actionable insights that anyone can understand — instantly and for free.',
     whatMakesUsDiffTitle: 'What Makes Us Different',
     diffPoints: [
-      { title: 'Contextual Health Intelligence', desc: 'Unlike basic lookup tables, we model multi-organ interactions across 5 disease domains.' },
-      { title: 'Multilingual Indian Accessibility', desc: 'Native translation and voice narration in Telugu, Hindi, Tamil, Kannada, Malayalam, Bengali, Marathi, and Gujarati.' },
-      { title: 'Doctor Consultation Preparation', desc: 'Generates specific questions with clinical rationales so you get the most out of physician appointments.' },
-      { title: 'Privacy-First Storage', desc: 'All analyses run safely with secure local storage or encrypted cloud hosting.' }
+      { title: 'Cardiovascular Health Analysis', desc: 'Checks your cholesterol, LDL, HDL, and triglyceride levels to give you a clear picture of your heart health today.' },
+      { title: 'Diabetes Risk Assessment', desc: 'Analyzes HbA1c and fasting blood sugar to help you understand your blood sugar status and what it means.' },
+      { title: 'Anemia Detection', desc: 'Evaluates hemoglobin, iron stores, and blood count to identify signs of anemia or nutritional deficiencies.' },
+      { title: 'Overall Wellness Score', desc: 'Combines all biomarker findings into a single easy-to-understand health score, so you always know where you stand.' }
     ],
     uploadTitle: 'Upload Your Medical Lab Report',
     uploadSubtitle: 'Upload PDF, scan images (JPG/PNG), CSV, or paste clinical lab text directly',
     dropFiles: 'Drop medical report here or click to browse (PDF, TXT, CSV, Image)',
     orPasteText: 'Or Paste Plain Report Text Below',
     analyzeButton: 'Analyze & Interpret Report',
-    analyzing: 'AI Parsing & Risk Modeling...',
+    analyzing: 'Parsing report and calculating educational scores...',
     patientDetailsTitle: 'Patient & Report Profile',
     patientName: 'Patient Name',
     patientAge: 'Age',
@@ -58,7 +58,7 @@ export const TRANSLATIONS = {
     referringDoctor: 'Referring Doctor',
     overallScore: 'Overall Health Index',
     overallHealthSummary: 'AI Clinical Health Synthesis',
-    riskStratification: 'Disease Risk Prediction Model',
+    riskStratification: 'Educational Rule-Based Scores',
     biomarkersFound: 'Biomarkers Detected & Extracted',
     normalMarkers: 'In Normal Range',
     abnormalMarkers: 'Need Attention',
@@ -70,7 +70,7 @@ export const TRANSLATIONS = {
     aiChatDesc: 'Have questions about what your results mean? Ask below.',
     savedReportsTitle: 'Saved Reports History',
     saveThisReport: 'Save to My Reports',
-    savedSuccess: 'Report Saved Locally!',
+    savedSuccess: 'Report Saved!',
     hostingGuideTitle: 'Hosting & Deployment Guide',
     listenAudio: 'Listen to Explanation (Audio)',
     stopAudio: 'Stop Audio',
@@ -85,11 +85,10 @@ export const TRANSLATIONS = {
       critical: 'Urgent Attention Required'
     },
     riskCategories: {
-      cardio: 'Cardiovascular Atherogenic Risk',
-      metabolic: 'Type-2 Diabetes & Metabolic Risk',
-      kidney: 'Kidney (Renal) Filtration Risk',
-      liver: 'Liver (Hepatic) Function Risk',
-      anemia: 'Hematology & Anemia Risk'
+      cardio: 'Cardiovascular Health',
+      metabolic: 'Diabetes Risk Assessment',
+      anemia: 'Anemia Detection',
+      wellness: 'Overall Wellness Score'
     },
     statusText: {
       normal: 'Normal',
@@ -102,7 +101,7 @@ export const TRANSLATIONS = {
   },
 
   te: {
-    appTitle: 'AI హెల్త్ ఇంటర్‌ప్రిటర్ రిపోర్ట్ (AI Health Interpreter Report)',
+    appTitle: 'AI హెల్త్ రిపోర్ట్ ఇంటర్‌ప్రిటర్ (AI Health Report Interpreter)',
     appSubtitle: 'మీ మెడికల్ రిపోర్టులను ఏఐ ద్వారా సులభంగా అర్థం చేసుకోండి — వ్యాధి ప్రమాద అంచనా & విశ్లేషణ',
     heroTag: 'ఏఐ క్లినికల్ రిపోర్ట్ డీకోడర్',
     heroTitle: 'మీ రిపోర్టులు, ఏఐ ద్వారా విశ్లేషణ',
@@ -120,10 +119,10 @@ export const TRANSLATIONS = {
     ourSolutionDesc: 'ఆరోగ్య సమాచారాన్ని అందరికీ సులభంగా అందుబాటులోకి తేవడానికి మేము AI హెల్త్ ఇంటర్‌ప్రిటర్‌ను సృష్టించాము. ఆధునిక AI ద్వారా సంక్లిష్ట వైద్య వివరాలను స్పష్టమైన, ఉపయోగకరమైన సూచనలుగా పూర్తిగా ఉచితంగా మారుస్తాము.',
     whatMakesUsDiffTitle: 'మా ప్రత్యేకత ఏమిటి?',
     diffPoints: [
-      { title: 'సమగ్ర ఆరోగ్య విశ్లేషణ', desc: '5 ప్రధాన ఆరోగ్య విభాగాలలో (గుండె, షుగర్, కిడ్నీ, లివర్, రక్తం) ప్రమాదాలను లెక్కిస్తుంది.' },
-      { title: 'తెలుగు మరియు భారతీయ భాషలలో అనువాదం', desc: 'తెలుగు, హిందీ, తమిళం, కన్నడ తదితర భాషల్లో వివరణ మరియు వాయిస్ ఆడియో సదుపాయం.' },
-      { title: 'డాక్టర్‌ను అడగవలసిన ప్రశ్నల జాబితా', desc: 'మీ తదుపరి డాక్టర్ సంప్రదింపులో అడగడానికి ప్రత్యేకమైన ప్రశ్నలను తయారు చేస్తుంది.' },
-      { title: 'గోప్యత మరియు సురక్షిత నిల్వ', desc: 'మీ సమాచారం పూర్తిగా సురక్షితంగా మీ పరికరంలో మాత్రమే నిల్వ చేయబడుతుంది.' }
+      { title: 'హృదయ ఆరోగ్య విశ్లేషణ', desc: 'కొలెస్ట్రాల్, LDL, HDL మరియు ట్రైగ్లిసరైడ్ విలువలను పరిశీలించి మీ హృదయ ఆరోగ్యాన్ని స్పష్టంగా చూపిస్తుంది.' },
+      { title: 'డయాబెటిస్ ప్రమాద అంచనా', desc: 'HbA1c మరియు ఫాస్టింగ్ షుగర్ విశ్లేషించి మీ బ్లడ్ షుగర్ స్థితిని సులభంగా అర్థం చేయిస్తుంది.' },
+      { title: 'రక్తహీనత గుర్తింపు', desc: 'హిమోగ్లోబిన్, ఇనుప నిల్వలు మరియు రక్త కణాల లెక్కను పరిశీలించి రక్తహీనత సంకేతాలను గుర్తిస్తుంది.' },
+      { title: 'మొత్తం ఆరోగ్య స్కోర్', desc: 'అన్ని బయోమార్కర్ ఫలితాలను కలిపి ఒక సులభమైన ఆరోగ్య స్కోర్‌గా చూపిస్తుంది.' }
     ],
     uploadTitle: 'మీ మెడికల్ ల్యాబ్ రిపోర్టును అప్‌లోడ్ చేయండి',
     uploadSubtitle: 'బ్లడ్ టెస్ట్ (CBC), లిపిడ్ ప్రొఫైల్, షుగర్, లివర్ మరియు కిడ్నీ రిపోర్టులు',
@@ -169,11 +168,10 @@ export const TRANSLATIONS = {
       critical: 'వెంటనే డాక్టర్‌ని సంప్రదించాలి'
     },
     riskCategories: {
-      cardio: 'గుండె మరియు కొలెస్ట్రాల్ ప్రమాదం',
-      metabolic: 'డయాబెటిస్ (షుగర్) ప్రమాదం',
-      kidney: 'కిడ్నీ (మూత్రపిండాల) పనితీరు ప్రమాదం',
-      liver: 'లివర్ (కాలేయం) ఆరోగ్య ప్రమాదం',
-      anemia: 'రక్తహీనత (ఎనీమియా) ప్రమాదం'
+      cardio: 'హృదయ ఆరోగ్యం (Cardiovascular Health)',
+      metabolic: 'డయాబెటిస్ ప్రమాద అంచనా (Diabetes Risk)',
+      anemia: 'రక్తహీనత గుర్తింపు (Anemia Detection)',
+      wellness: 'మొత్తం ఆరోగ్య స్కోర్ (Overall Wellness)'
     },
     statusText: {
       normal: 'సాధారణం',
@@ -186,7 +184,7 @@ export const TRANSLATIONS = {
   },
 
   hi: {
-    appTitle: 'एआई हेल्थ इंटरप्रेटर रिपोर्ट (AI Health Interpreter Report)',
+    appTitle: 'एआई हेल्थ रिपोर्ट इंटरप्रेटर (AI Health Report Interpreter)',
     appSubtitle: 'आपकी मेडिकल रिपोर्ट का एआई द्वारा संपूर्ण विश्लेषण — जोखिम पूर्वानुमान एवं मार्गदर्शन',
     heroTag: 'एआई क्लीनिकल रिपोर्ट डिकोडर',
     heroTitle: 'आपकी रिपोर्ट्स, एआई द्वारा विश्लेषित',
@@ -253,11 +251,10 @@ export const TRANSLATIONS = {
       critical: 'तत्काल चिकित्सीय ध्यान आवश्यक'
     },
     riskCategories: {
-      cardio: 'हृदय रोग एवं कोलेस्ट्रॉल जोखिम',
-      metabolic: 'डायबिटीज (मधुमेह) एवं मेटाबॉलिक जोखिम',
-      kidney: 'गुर्दे (किडनी) की कार्यप्रणाली जोखिम',
-      liver: 'यकृत (लिवर) का स्वास्थ्य जोखिम',
-      anemia: 'खून की कमी (एनीमिया) का जोखिम'
+      cardio: 'हृदय स्वास्थ्य',
+      metabolic: 'मधुमेह जोखिम मूल्यांकन',
+      anemia: 'एनीमिया पहचान',
+      wellness: 'समग्र स्वास्थ्य स्कोर'
     },
     statusText: {
       normal: 'सामान्य',
@@ -270,7 +267,7 @@ export const TRANSLATIONS = {
   },
 
   ta: {
-    appTitle: 'AI ஹெல்த் இன்டர்பிரட்டர் அறிக்கை (AI Health Interpreter Report)',
+    appTitle: 'AI ஹெல்த் ரிப்போர்ட் இன்டர்பிரட்டர் (AI Health Report Interpreter)',
     appSubtitle: 'உங்கள் மருத்துவ அறிக்கைகள், AI மூலம் எளிய விளக்கம் & நோய் அபாய முன்னறிவிப்பு',
     heroTag: 'AI மருத்துவ அறிக்கை குறிவிலக்கி',
     heroTitle: 'உங்கள் அறிக்கைகள், AI மூலம் துல்லிய விளக்கம்',
@@ -337,11 +334,10 @@ export const TRANSLATIONS = {
       critical: 'உடனடி மருத்துவ கவனிப்பு தேவை'
     },
     riskCategories: {
-      cardio: 'இதயம் மற்றும் கொலஸ்ட்ரால் அபாயம்',
-      metabolic: 'சர்க்கரை நோய் அபாயம்',
-      kidney: 'சிறுநீரக செயல்பாடு அபாயம்',
-      liver: 'கல்லீரல் ஆரோக்கிய அபாயம்',
-      anemia: 'இரத்த சோகை அபாயம்'
+      cardio: 'இதயம் மற்றும் கொலஸ்ட்ரால் ஆரோக்கியம்',
+      metabolic: 'நீரிழிவு நோய் அபாய மதிப்பீடு',
+      anemia: 'இரத்த சோகை கண்டறிதல்',
+      wellness: 'ஒட்டுமொத்த ஆரோக்கிய மதிப்பெண்'
     },
     statusText: {
       normal: 'இயல்பு',
@@ -354,7 +350,7 @@ export const TRANSLATIONS = {
   },
 
   kn: {
-    appTitle: 'AI ಹೆಲ್ತ್ ಇಂಟರ್‌ಪ್ರಿಟರ್ ವರದಿ (AI Health Interpreter Report)',
+    appTitle: 'AI ಹೆಲ್ತ್ ರಿಪೋರ್ಟ್ ಇಂಟರ್‌ಪ್ರಿಟರ್ (AI Health Report Interpreter)',
     appSubtitle: 'ನಿಮ್ಮ ವೈದ್ಯಕೀಯ ವರದಿಗಳು, AI ಮೂಲಕ ಸರಳ ವಿವರಣೆ ಮತ್ತು ರೋಗ ಅಪಾಯ ಮುನ್ಸೂಚನೆ',
     heroTag: 'AI ಕ್ಲಿನಿಕಲ್ ವರದಿ ಡಿಕೋಡರ್',
     heroTitle: 'ನಿಮ್ಮ ವರದಿಗಳು, AI ಮೂಲಕ ಡಿಕೋಡ್',
@@ -421,11 +417,10 @@ export const TRANSLATIONS = {
       critical: 'ತಕ್ಷಣ ವೈದ್ಯರನ್ನು ಭೇಟಿ ಮಾಡಿ'
     },
     riskCategories: {
-      cardio: 'ಹೃದಯ ಮತ್ತು ಕೊಲೆಸ್ಟ್ರಾಲ್ ಅಪಾಯ',
-      metabolic: 'ಮಧುಮೇಹ (ಶುಗರ್) ಅಪಾಯ',
-      kidney: 'ಮೂತ್ರಪಿಂಡದ ಕ್ರಿಯೆಯ ಅಪಾಯ',
-      liver: 'ಯಕೃತ್ತಿನ ಆರೋಗ್ಯ ಅಪಾಯ',
-      anemia: 'ರಕ್ತಹೀನತೆ ಅಪಾಯ'
+      cardio: 'ಹೃದಯ ಆರೋಗ್ಯ',
+      metabolic: 'ಮಧುಮೇಹ ಅಪಾಯ ಮೌಲ್ಯಮಾಪನ',
+      anemia: 'ರಕ್ತಹೀನತೆ ಪತ್ತೆ',
+      wellness: 'ಒಟ್ಟಾರೆ ಆರೋಗ್ಯ ಸ್ಕೋರ್'
     },
     statusText: {
       normal: 'ಸಾಮಾನ್ಯ',
@@ -438,7 +433,7 @@ export const TRANSLATIONS = {
   },
 
   ml: {
-    appTitle: 'AI ഹെൽത്ത് ഇന്റർപ്രെറ്റർ റിപ്പോർട്ട് (AI Health Interpreter Report)',
+    appTitle: 'AI ഹെൽത്ത് റിപ്പോർട്ട് ഇന്റർപ്രെറ്റർ (AI Health Report Interpreter)',
     appSubtitle: 'മെഡിക്കൽ റിപ്പോർട്ടുകൾ AI വഴി മനസ്സിലാക്കൂ — രോഗ സാധ്യത പ്രവചനവും വിശദീകരണവും',
     heroTag: 'AI ക്ലിനിക്കൽ റിപ്പോർട്ട് ഡീകോഡർ',
     heroTitle: 'നിങ്ങളുടെ റിപ്പോർട്ടുകൾ, AI ലളിതമാക്കുന്നു',
@@ -505,11 +500,10 @@ export const TRANSLATIONS = {
       critical: 'ഉടൻ ഡോക്ടറെ കാണുക'
     },
     riskCategories: {
-      cardio: 'ഹൃദ്രോഗ സാധ്യത',
-      metabolic: 'പ്രമേഹ സാധ്യത',
-      kidney: 'വൃക്ക സംബന്ധമായ സാധ്യത',
-      liver: 'കരൾ സംബന്ധമായ സാധ്യത',
-      anemia: 'വിളർച്ച സാധ്യത'
+      cardio: 'ഹൃദ്രോഗ ആരോഗ്യം',
+      metabolic: 'പ്രമേഹ അപകടസാധ്യത',
+      anemia: 'വിളർച്ച കണ്ടെത്തൽ',
+      wellness: 'മൊത്തം ആരോഗ്യ സ്കോർ'
     },
     statusText: {
       normal: 'സാധാരണം',
@@ -522,7 +516,7 @@ export const TRANSLATIONS = {
   },
 
   mr: {
-    appTitle: 'एआय हेल्थ इंटरप्रिटर रिपोर्ट (AI Health Interpreter Report)',
+    appTitle: 'एआय हेल्थ रिपोर्ट इंटरप्रिटर (AI Health Report Interpreter)',
     appSubtitle: 'तुमचे वैद्यकीय अहवाल, AI द्वारे सुलभ विश्लेषण आणि रोग जोखीम अंदाज',
     heroTag: 'AI क्लिनिकल रिपोर्ट डिकोडर',
     heroTitle: 'तुमचे अहवाल, AI द्वारे डीकोड',
@@ -589,11 +583,10 @@ export const TRANSLATIONS = {
       critical: 'तातडीने डॉक्टरांना भेटा'
     },
     riskCategories: {
-      cardio: 'हृदय आणि कोलेस्ट्रॉल जोखीम',
-      metabolic: 'मधुमेह जोखीम',
-      kidney: 'मूत्रपिंड जोखीम',
-      liver: 'यकृत जोखीम',
-      anemia: 'ॲनिमिया जोखीम'
+      cardio: 'हृदय आरोग्य',
+      metabolic: 'मधुमेह जोखीम मूल्यांकन',
+      anemia: 'ॲनिमिया शोध',
+      wellness: 'एकूण निरोगी स्कोअर'
     },
     statusText: {
       normal: 'सामान्य',
@@ -606,7 +599,7 @@ export const TRANSLATIONS = {
   },
 
   gu: {
-    appTitle: 'AI હેલ્થ ઇન્ટરપ્રિટર રિપોર્ટ (AI Health Interpreter Report)',
+    appTitle: 'AI હેલ્થ રિપોર્ટ ઇન્ટરપ્રિટર (AI Health Report Interpreter)',
     appSubtitle: 'તમારા મેડિકલ રિપોર્ટ્સ, AI દ્વારા સરળ સમજણ અને રોગ જોખમ અનુમાન',
     heroTag: 'AI ક્લિનિકલ રિપોર્ટ ડીકોડર',
     heroTitle: 'તમારા રિપોર્ટ્સ, AI દ્વારા ડીકોડ',
@@ -673,11 +666,10 @@ export const TRANSLATIONS = {
       critical: 'તરત ડૉક્ટરને બતાવો'
     },
     riskCategories: {
-      cardio: 'હૃદય અને કોલેસ્ટ્રોલ જોખમ',
-      metabolic: 'ડાયાબિટીસ જોખમ',
-      kidney: 'કિડની જોખમ',
-      liver: 'લીવર જોખમ',
-      anemia: 'એનિમિયા જોખમ'
+      cardio: 'હૃદય આરોગ્ય',
+      metabolic: 'ડાયાબિટીસ જોખમ મૂલ્યાંકન',
+      anemia: 'એનિમિયા શોધ',
+      wellness: 'સ્વાસ્થ્ય સ્કોર'
     },
     statusText: {
       normal: 'સામાન્ય',
@@ -690,7 +682,7 @@ export const TRANSLATIONS = {
   },
 
   bn: {
-    appTitle: 'এআই হেলথ ইন্টারপ্রেটার রিপোর্ট (AI Health Interpreter Report)',
+    appTitle: 'এআই হেলথ রিপোর্ট ইন্টারপ্রেটার (AI Health Report Interpreter)',
     appSubtitle: 'আপনার মেডিকেল রিপোর্ট এআই দ্বারা বিশদ বিশ্লেষণ — বহুভাষিক রোগ ঝুঁকি পূর্বাভাস',
     heroTag: 'এআই ক্লিনিক্যাল রিপোর্ট ডিকোডার',
     heroTitle: 'আপনার রিপোর্ট, এআই দ্বারা ব্যাখ্যা',
@@ -758,10 +750,9 @@ export const TRANSLATIONS = {
     },
     riskCategories: {
       cardio: 'হৃদরোগ ঝুঁকি',
-      metabolic: 'ডায়াবেটিস ঝুঁকি',
-      kidney: 'কিডনি ফিল্ট্রেশন ঝুঁকি',
-      liver: 'লিভার ফাংশন ঝুঁকি',
-      anemia: 'রক্তাল্পতা ঝুঁকি'
+      metabolic: 'ডায়াবেটিস ঝুঁকি মূল্যায়ন',
+      anemia: 'রক্তাল্পতা সনাক্তকরণ',
+      wellness: 'সামগ্রিক স্বাস্থ্য স্কোর'
     },
     statusText: {
       normal: 'স্বাভাবিক',
@@ -841,11 +832,10 @@ export const TRANSLATIONS = {
       critical: 'Atención Médica Urgente'
     },
     riskCategories: {
-      cardio: 'Riesgo Cardiovascular y Lipídico',
-      metabolic: 'Riesgo de Diabetes y Síndrome Metabólico',
-      kidney: 'Riesgo de Filtración Renal',
-      liver: 'Riesgo de Función Hepática',
-      anemia: 'Riesgo de Anemia y Hematología'
+      cardio: 'Salud Cardiovascular',
+      metabolic: 'Evaluación de Riesgo de Diabetes',
+      anemia: 'Detección de Anemia',
+      wellness: 'Puntuación de Bienestar General'
     },
     statusText: {
       normal: 'Normal',
@@ -854,6 +844,338 @@ export const TRANSLATIONS = {
       critical_low: 'Crítico Bajo',
       critical_high: 'Crítico Alto',
       optimal: 'Óptimo'
+    }
+  },
+
+  fr: {
+    appTitle: 'AI Health Report Interpreter',
+    appSubtitle: 'Vos bilans de santé décodés par IA — Prédiction des risques et compréhension des résultats',
+    heroTag: 'Décodeur Clinique IA',
+    heroTitle: 'Vos bilans de santé, décodés par l\'IA',
+    heroSubtitle: 'Notre IA ne se contente pas de lire des chiffres : elle comprend le contexte médical. Elle compare vos résultats aux bases cliniques, identifie les facteurs de risque et formule des recommandations personnalisées.',
+    features: {
+      f1: 'Analyse instantanée des bilans sanguins',
+      f2: 'Détection des anomalies biologiques',
+      f3: 'Score prédictif de risque clinique',
+      f4: 'Recommandations de santé personnalisées'
+    },
+    whyWeBuiltTitle: 'Pourquoi nous avons créé AI Health Report Interpreter',
+    theProblemTitle: 'Le constat initial',
+    theProblemDesc: 'Les bilans médicaux sont complexes et remplis de jargon médical, laissant les patients anxieux et incertains. Tout le monde ne peut pas consulter immédiatement un médecin uniquement pour interpréter une prise de sang.',
+    ourSolutionTitle: 'Notre solution',
+    ourSolutionDesc: 'Nous avons créé AI Health Report Interpreter pour démocratiser la compréhension médicale. Grâce à une IA avancée, nous traduisons vos données biologiques en explications claires et exploitables, instantanément et gratuitement.',
+    whatMakesUsDiffTitle: 'Ce qui nous différencie',
+    diffPoints: [
+      { title: 'Analyse de la santé cardiovasculaire', desc: 'Évalue le cholestérol total, LDL, HDL et les triglycérides pour dresser un bilan cardiaque complet.' },
+      { title: 'Évaluation du risque de diabète', desc: 'Analyse l\'HbA1c et la glycémie à jeun pour mesurer précisément votre profil glycémique.' },
+      { title: 'Dépistage de l\'anémie', desc: 'Évalue l\'hémoglobine, les réserves de fer et la formule sanguine pour identifier d\'éventuelles carences.' },
+      { title: 'Score global de bien-être', desc: 'Combine l\'ensemble des biomarqueurs en un score clair pour situer immédiatement votre état de santé.' }
+    ],
+    uploadTitle: 'Téléversez votre bilan médical de laboratoire',
+    uploadSubtitle: 'Compatible PDF, numérisations (JPG/PNG), CSV ou texte copié directement',
+    dropFiles: 'Déposez votre bilan ici ou cliquez pour parcourir (PDF, TXT, CSV, Image)',
+    orPasteText: 'Ou collez le texte brut du compte-rendu ci-dessous',
+    analyzeButton: 'Analyser et interpréter le bilan',
+    analyzing: 'Analyse IA et calcul des risques en cours...',
+    patientDetailsTitle: 'Profil du patient et du compte-rendu',
+    patientName: 'Nom du patient',
+    patientAge: 'Âge',
+    patientGender: 'Genre',
+    patientId: 'Identifiant patient',
+    labName: 'Laboratoire d\'analyses',
+    reportDate: 'Date du bilan',
+    testPanel: 'Panel d\'analyses',
+    referringDoctor: 'Médecin prescripteur',
+    overallScore: 'Indice de santé global',
+    overallHealthSummary: 'Synthèse clinique de l\'IA',
+    riskStratification: 'Modèle prédictif des risques pathologiques',
+    biomarkersFound: 'Biomarqueurs identifiés et analysés',
+    normalMarkers: 'Dans les valeurs normales',
+    abnormalMarkers: 'Nécessitant une attention',
+    doctorQuestionsTitle: 'Questions ciblées à poser à votre médecin',
+    doctorQuestionsDesc: 'Apportez ces questions lors de votre prochaine consultation.',
+    lifestyleTitle: 'Conseils hygiéno-diététiques et nutrition',
+    lifestyleDesc: 'Recommandations nutritionnelles fondées sur vos biomarqueurs anormaux.',
+    aiChatTitle: 'Assistant médical IA interactif',
+    aiChatDesc: 'Posez vos questions sur vos résultats d\'analyses.',
+    savedReportsTitle: 'Historique des bilans enregistrés',
+    saveThisReport: 'Enregistrer ce bilan',
+    savedSuccess: 'Bilan enregistré avec succès !',
+    hostingGuideTitle: 'Guide technique',
+    listenAudio: 'Écouter l\'explication audio',
+    stopAudio: 'Arrêter l\'audio',
+    exportPdf: 'Imprimer la fiche patient',
+    disclaimerTitle: 'Avertissement médical et sécurité',
+    disclaimerText: 'Cet outil repose sur des algorithmes cliniques et une IA à visée éducative. Il ne constitue pas un diagnostic médical et ne remplace pas l\'avis d\'un professionnel de santé.',
+    riskLevels: {
+      optimal: 'Santé optimale',
+      low: 'Risque faible',
+      moderate: 'Risque modéré',
+      high: 'Risque élevé',
+      critical: 'Attention médicale urgente'
+    },
+    riskCategories: {
+      cardio: 'Santé cardiovasculaire',
+      metabolic: 'Évaluation du risque de diabète',
+      anemia: 'Dépistage de l\'anémie',
+      wellness: 'Score global de bien-être'
+    },
+    statusText: {
+      normal: 'Normal',
+      low: 'Bas',
+      high: 'Élevé',
+      critical_low: 'Critique bas',
+      critical_high: 'Critique élevé',
+      optimal: 'Optimal'
+    }
+  },
+
+  de: {
+    appTitle: 'AI Health Report Interpreter',
+    appSubtitle: 'Ihre Laborberichte durch KI entschlüsselt — Risikovorhersage & Patientenverständnis',
+    heroTag: 'Klinischer KI-Labor-Decoder',
+    heroTitle: 'Ihre Laborbefunde, verständlich durch KI',
+    heroSubtitle: 'Unsere KI liest nicht nur Zahlen — sie versteht den medizinischen Kontext. Sie vergleicht Ihre Laborwerte mit klinischen Referenzbereichen, erkennt Risikofaktoren und liefert verständliche Gesundheitshinweise.',
+    features: {
+      f1: 'Sofortige Blutbild-Analyse',
+      f2: 'Erkennung auffälliger Laborwerte',
+      f3: 'Klinisches Gesundheits-Risikoscoring',
+      f4: 'Personalisierte Gesundheitsempfehlungen'
+    },
+    whyWeBuiltTitle: 'Warum wir AI Health Report Interpreter entwickelt haben',
+    theProblemTitle: 'Das Problem',
+    theProblemDesc: 'Medizinische Laborberichte sind voller Fachbegriffe und verwirrend. Patienten sind verunsichert und müssen oft lange auf Termine warten, nur um ihre Blutwerte zu verstehen.',
+    ourSolutionTitle: 'Unsere Lösung',
+    ourSolutionDesc: 'Wir haben AI Health Report Interpreter entwickelt, um medizinische Befunde für jeden verständlich zu machen. Moderne KI übersetzt komplexe Laborwerte in klare, verständliche Handlungsempfehlungen — sofort und kostenlos.',
+    whatMakesUsDiffTitle: 'Was uns auszeichnet',
+    diffPoints: [
+      { title: 'Kardiovaskuläre Risikoanalyse', desc: 'Überprüft Gesamtcholesterin, LDL, HDL und Triglyceride für ein klares Bild Ihrer Herzgesundheit.' },
+      { title: 'Diabetes-Risikobewertung', desc: 'Analysiert HbA1c und Nüchternglukose zur Bestimmung Ihres Blutzuckerstatus.' },
+      { title: 'Anämie-Früherkennung', desc: 'Bewertet Hämoglobin, Eisenspeicher und Blutbild auf Anzeichen von Blutarmut oder Mangelerscheinungen.' },
+      { title: 'Gesamt-Gesundheitsindex', desc: 'Kombiniert alle Biomarker zu einem leicht verständlichen Gesamtwert.' }
+    ],
+    uploadTitle: 'Laden Sie Ihren medizinischen Laborbericht hoch',
+    uploadSubtitle: 'Unterstützt PDF, gescannte Bilder (JPG/PNG), CSV oder direkten Text',
+    dropFiles: 'Laborbericht hier ablegen oder klicken zum Auswählen (PDF, TXT, CSV, Bild)',
+    orPasteText: 'Oder fügen Sie den reinen Berichtstext hier ein',
+    analyzeButton: 'Bericht analysieren & interpretieren',
+    analyzing: 'KI analysiert Biomarker und berechnet Risikoprofile...',
+    patientDetailsTitle: 'Patienten- und Berichtsprofil',
+    patientName: 'Patientenname',
+    patientAge: 'Alter',
+    patientGender: 'Geschlecht',
+    patientId: 'Patienten-ID',
+    labName: 'Medizinisches Labor',
+    reportDate: 'Berichtsdatum',
+    testPanel: 'Untersuchungspanel',
+    referringDoctor: 'Überweisender Arzt',
+    overallScore: 'Gesamt-Gesundheitsindex',
+    overallHealthSummary: 'Klinische KI-Zusammenfassung',
+    riskStratification: 'Prädiktive Risikostratifizierung',
+    biomarkersFound: 'Erkannte und extrahierte Biomarker',
+    normalMarkers: 'Im Normalbereich',
+    abnormalMarkers: 'Aufmerksamkeitsbedürftig',
+    doctorQuestionsTitle: 'Gezielte Fragen für Ihren Arzt',
+    doctorQuestionsDesc: 'Bringen Sie diese vorbereiteten Fragen zu Ihrem nächsten Arztgespräch mit.',
+    lifestyleTitle: 'Evidenzbasierte Lebensstil- & Ernährungstipps',
+    lifestyleDesc: 'Gezielte Ernährungsempfehlungen basierend auf Ihren veränderten Werten.',
+    aiChatTitle: 'Interaktiver KI-Gesundheitsassistent',
+    aiChatDesc: 'Haben Sie Fragen zu Ihren Laborergebnissen? Fragen Sie die KI.',
+    savedReportsTitle: 'Gespeicherte Berichte',
+    saveThisReport: 'Diesen Bericht speichern',
+    savedSuccess: 'Bericht erfolgreich gespeichert!',
+    hostingGuideTitle: 'System-Dokumentation',
+    listenAudio: 'Audio-Erklärung anhören',
+    stopAudio: 'Audio stoppen',
+    exportPdf: 'Patientenblatt drucken',
+    disclaimerTitle: 'Klinischer & Sicherheitshinweis',
+    disclaimerText: 'Dieses System dient ausschließlich Informations- und Bildungszwecken. Es ersetzt keine ärztliche Diagnose, Beratung oder Behandlung.',
+    riskLevels: {
+      optimal: 'Optimale Gesundheit',
+      low: 'Niedriges Risiko',
+      moderate: 'Mäßiges Risiko',
+      high: 'Erhöhtes Risiko',
+      critical: 'Dringende ärztliche Abklärung'
+    },
+    riskCategories: {
+      cardio: 'Kardiovaskuläre Gesundheit',
+      metabolic: 'Diabetes-Risikobewertung',
+      anemia: 'Anämie-Erkennung',
+      wellness: 'Gesamt-Gesundheitsindex'
+    },
+    statusText: {
+      normal: 'Normal',
+      low: 'Niedrig',
+      high: 'Hoch',
+      critical_low: 'Kritisch niedrig',
+      critical_high: 'Kritisch hoch',
+      optimal: 'Optimal'
+    }
+  },
+
+  zh: {
+    appTitle: 'AI Health Report Interpreter',
+    appSubtitle: 'AI 智能解读医疗体检化验单 — 多疾病风险预测与患者易读报告',
+    heroTag: 'AI 临床报告解读引擎',
+    heroTitle: '您的体检化验单，由 AI 深度解读',
+    heroSubtitle: '我们的 AI 不仅识读数值，更能理解临床意义。它将您的指标与医学参考数据库比对，识别潜在健康风险，并提供个性化健康建议。',
+    features: {
+      f1: '即时血液指标化验分析',
+      f2: '异常指标智能标定',
+      f3: '多疾病健康风险评分',
+      f4: '个性化生活与就医建议'
+    },
+    whyWeBuiltTitle: '为什么开发 AI Health Report Interpreter',
+    theProblemTitle: '我们看到的痛点',
+    theProblemDesc: '医疗化验报告专业术语密集、参考范围复杂，常令患者感到焦虑和困惑。许多人无法因小疑问频繁挂号咨询医生。',
+    ourSolutionTitle: '我们的解决方案',
+    ourSolutionDesc: '我们打造 AI Health Report Interpreter，旨在让每个人都能轻松读懂体检报告。借助先进的人工智能，我们将生涩的医学数据转化为通俗易懂的健康洞察，快速且免费。',
+    whatMakesUsDiffTitle: '我们的特色',
+    diffPoints: [
+      { title: '心血管健康风险评估', desc: '深度分析总胆固醇、LDL、HDL 及甘油三酯，全面评估动脉粥样硬化及心脏风险。' },
+      { title: '糖尿病及代谢风险筛查', desc: '评估糖化血红蛋白 (HbA1c) 与空腹血糖，清晰呈现血糖健康状态。' },
+      { title: '贫血与营养缺乏筛查', desc: '综合血红蛋白、平均红细胞体积与铁代谢指标，排查贫血隐患。' },
+      { title: '综合健康评分', desc: '整合各项生物标志物指标，输出直观的综合健康指数。' }
+    ],
+    uploadTitle: '上传您的医疗体检化验报告',
+    uploadSubtitle: '支持 PDF 格式、纸质扫描图片 (JPG/PNG)、CSV 文件或直接粘贴文字',
+    dropFiles: '将报告拖拽到此处，或点击浏览文件 (PDF, TXT, CSV, 图片)',
+    orPasteText: '或在下方直接粘贴纯文本化验报告',
+    analyzeButton: '开始 AI 分析与解读报告',
+    analyzing: 'AI 正在解析指标并计算风险模型...',
+    patientDetailsTitle: '患者与报告基本信息',
+    patientName: '患者姓名',
+    patientAge: '年龄',
+    patientGender: '性别',
+    patientId: '病历/患者编号',
+    labName: '检验机构/医院',
+    reportDate: '检测日期',
+    testPanel: '检测项目组合',
+    referringDoctor: '送检医生',
+    overallScore: '综合健康指数',
+    overallHealthSummary: 'AI 临床智能总结',
+    riskStratification: '多疾病分级风险预测模型',
+    biomarkersFound: '识别提取的生物标志物',
+    normalMarkers: '在正常参考范围内',
+    abnormalMarkers: '偏离参考范围（需关注）',
+    doctorQuestionsTitle: '建议向医生咨询的问题清单',
+    doctorQuestionsDesc: '就医时可随身携带这些针对性问题，高效与医生沟通。' ,
+    lifestyleTitle: '循证生活方式与营养膳食指导',
+    lifestyleDesc: '根据异常生理指标量身定制的营养与日常调理建议。',
+    aiChatTitle: '互动式 AI 健康问答助手',
+    aiChatDesc: '对化验结果有疑问？随时向 AI 助手提问。',
+    savedReportsTitle: '历史已存报告',
+    saveThisReport: '保存此份报告',
+    savedSuccess: '报告已成功保存到本地！',
+    hostingGuideTitle: '技术文档与架构',
+    listenAudio: '播放语音解读',
+    stopAudio: '停止播放',
+    exportPdf: '打印/导出患者咨询单',
+    disclaimerTitle: '临床免责与安全声明',
+    disclaimerText: '本工具基于临床算法与人工智能技术，仅用于健康知识普及与参考，不构成医疗诊断或处方。如有健康疑问，请咨询执业医师。',
+    riskLevels: {
+      optimal: '健康状态良好',
+      low: '低风险',
+      moderate: '中度风险',
+      high: '高风险',
+      critical: '建议紧急就医'
+    },
+    riskCategories: {
+      cardio: '心血管健康',
+      metabolic: '糖尿病风险评估',
+      anemia: '贫血筛查',
+      wellness: '综合健康评分'
+    },
+    statusText: {
+      normal: '正常',
+      low: '偏低',
+      high: '偏高',
+      critical_low: '严重偏低',
+      critical_high: '严重偏高',
+      optimal: '理想'
+    }
+  },
+
+  ar: {
+    appTitle: 'AI Health Report Interpreter',
+    appSubtitle: 'تقاريرك الطبية مفككة بالذكاء الاصطناعي — التنبؤ بمخاطر الأمراض وفهم النتائج',
+    heroTag: 'مفسر التقارير السريرية بالذكاء الاصطناعي',
+    heroTitle: 'تقاريرك المخبرية، مشروحة ببساطة بواسطة الذكاء الاصطناعي',
+    heroSubtitle: 'ذكاؤنا الاصطناعي لا يكتفي بقراءة الأرقام — بل يفهم السياق الطبي. يقارن نتائجك بالمعدلات المرجعية المعتمدة، ويكشف عوامل الخطر، ويقدم إرشادات صحية مخصصة.',
+    features: {
+      f1: 'تحليل فوري لفحوصات الدم',
+      f2: 'كشف المؤشرات الحيوية غير الطبيعية',
+      f3: 'تقييم مخاطر الأمراض متعددة الجوانب',
+      f4: 'توصيات صحية ونمط حياة مخصص'
+    },
+    whyWeBuiltTitle: 'لماذا قمنا ببناء AI Health Report Interpreter',
+    theProblemTitle: 'المشكلة التي لاحظناها',
+    theProblemDesc: 'التقارير المخبرية مليئة بالمصطلحات المعقدة التي تسبب القلق والحيرة للمرضى. كما يصعب على الكثيرين استشارة الطبيب فورا فقط لفهم نتائج تحليل الدم.',
+    ourSolutionTitle: 'حلنا المبتكر',
+    ourSolutionDesc: 'أنشأنا هذا النظام لتمكين المرضى من فهم صحتهم. نترجم البيانات المخبرية المعقدة إلى رؤى واضحة وسهلة الفهم يمكن لأي شخص استيعابها — فوريا ومجانا.',
+    whatMakesUsDiffTitle: 'ما يميزنا',
+    diffPoints: [
+      { title: 'تحليل صحة القلب والأوعية الدموية', desc: 'يفحص الكوليسترول الكلي والضار والنافع والدهون الثلاثية لتقييم صحة القلب.' },
+      { title: 'تقييم مخاطر السكري', desc: 'يحلل السكر التراكمي (HbA1c) وسكر الصيام لتحديد وضع مستويات السكر.' },
+      { title: 'الكشف عن فقر الدم (الأنيميا)', desc: 'يفحص الهيموجلوبين ومخزون الحديد لتشخيص علامات فقر الدم أو نقص التغذية.' },
+      { title: 'مؤشر الصحة والعافية العام', desc: 'يدمج كافة المؤشرات الحيوية في درجة صحية موحدة وسهلة الفهم.' }
+    ],
+    uploadTitle: 'حمّل تقرير التحاليل الطبية',
+    uploadSubtitle: 'يدعم ملفات PDF، صور التحاليل الممسوحة (JPG/PNG)، ملفات CSV أو نسخ النص مباشرة',
+    dropFiles: 'أسقط تقريرك هنا أو انقر للاختيار (PDF, TXT, CSV, صورة)',
+    orPasteText: 'أو الصق نص التقرير المخبري مباشرة أدناه',
+    analyzeButton: 'تحليل وتفسير التقرير',
+    analyzing: 'جارٍ تحليل المؤشرات الحيوية ونمذجة المخاطر بالذكاء الاصطناعي...',
+    patientDetailsTitle: 'بيانات المريض والتقرير',
+    patientName: 'اسم المريض',
+    patientAge: 'العمر',
+    patientGender: 'الجنس',
+    patientId: 'رقم الملف/المريض',
+    labName: 'اسم المختبر',
+    reportDate: 'تاريخ الفحص',
+    testPanel: 'باقة الفحوصات',
+    referringDoctor: 'الطبيب المعالج',
+    overallScore: 'مؤشر الصحة العام',
+    overallHealthSummary: 'الملخص السريري الذكي',
+    riskStratification: 'نموذج التنبؤ بمخاطر الأمراض',
+    biomarkersFound: 'المؤشرات الحيوية المستخرجة',
+    normalMarkers: 'ضمن المعدل الطبيعي',
+    abnormalMarkers: 'تتطلب الانتباه',
+    doctorQuestionsTitle: 'أسئلة موجهة لطبيبك',
+    doctorQuestionsDesc: 'خذ هذه الأسئلة الطبية المخصصة معك إلى موعدك القادم مع الطبيب.',
+    lifestyleTitle: 'إرشادات نمط الحياة والتغذية',
+    lifestyleDesc: 'نصائح غذائية مدروسة بناء على نتائج المؤشرات غير الطبيعية.',
+    aiChatTitle: 'مساعد الصحة الذكي التفاعلي',
+    aiChatDesc: 'هل لديك أي استفسار حول نتائجك؟ اسأل المساعد الطبي الآن.',
+    savedReportsTitle: 'سجل التقارير المحفوظة',
+    saveThisReport: 'حفظ هذا التقرير',
+    savedSuccess: 'تم حفظ التقرير بنجاح!',
+    hostingGuideTitle: 'دليل النظام',
+    listenAudio: 'الاستماع للشرح الصوتي',
+    stopAudio: 'إيقاف الصوت',
+    exportPdf: 'طباعة تقرير المريض',
+    disclaimerTitle: 'إخلاء مسؤولية سريرية وسلامة',
+    disclaimerText: 'هذه الأداة مدعومة بخوارزميات سريرية وذكاء اصطناعي للتثقيف الصحي فقط. لا تشكل تشخيصا طبيا ولا تغني عن استشارة الطبيب المختص.',
+    riskLevels: {
+      optimal: 'صحة مثالية',
+      low: 'مخاطر منخفضة',
+      moderate: 'مخاطر معتدلة',
+      high: 'مخاطر مرتفعة',
+      critical: 'تنبيه طبي عاجل'
+    },
+    riskCategories: {
+      cardio: 'صحة القلب والأوعية',
+      metabolic: 'تقييم مخاطر السكري',
+      anemia: 'الكشف عن فقر الدم',
+      wellness: 'مؤشر الصحة العام'
+    },
+    statusText: {
+      normal: 'طبيعي',
+      low: 'منخفض',
+      high: 'مرتفع',
+      critical_low: 'منخفض جدا',
+      critical_high: 'مرتفع جدا',
+      optimal: 'مثالي'
     }
   }
 };

@@ -1,16 +1,28 @@
 import React, { useState } from 'react';
-import { ChevronDown, ChevronUp, AlertCircle, CheckCircle2, Info, ArrowUpRight, ArrowDownRight, Filter } from 'lucide-react';
+import { ChevronDown, ChevronUp, AlertCircle, CheckCircle2, Info, ArrowUpRight, ArrowDownRight, Filter, Search, X } from 'lucide-react';
 
 export function BiomarkerTable({ biomarkers, t }) {
   const [filter, setFilter] = useState('all'); // 'all' | 'abnormal' | 'normal'
+  const [searchQuery, setSearchQuery] = useState('');
   const [expandedId, setExpandedId] = useState(null);
 
   const abnormalCount = biomarkers.filter(b => b.status !== 'NORMAL').length;
   const normalCount = biomarkers.filter(b => b.status === 'NORMAL').length;
 
   const filteredBiomarkers = biomarkers.filter(b => {
-    if (filter === 'abnormal') return b.status !== 'NORMAL';
-    if (filter === 'normal') return b.status === 'NORMAL';
+    // 1. Status Filter
+    if (filter === 'abnormal' && b.status === 'NORMAL') return false;
+    if (filter === 'normal' && b.status !== 'NORMAL') return false;
+
+    // 2. Search Query Filter
+    if (searchQuery.trim()) {
+      const q = searchQuery.toLowerCase().trim();
+      const matchName = b.name.toLowerCase().includes(q);
+      const matchCategory = b.category.toLowerCase().includes(q);
+      const matchDesc = (b.description || '').toLowerCase().includes(q);
+      if (!matchName && !matchCategory && !matchDesc) return false;
+    }
+
     return true;
   });
 
@@ -64,53 +76,76 @@ export function BiomarkerTable({ biomarkers, t }) {
     <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden mb-8">
       
       {/* Header & Filter Controls */}
-      <div className="p-5 border-b border-slate-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-slate-50/50">
+      <div className="p-5 border-b border-slate-200 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 bg-slate-50/50">
         <div>
           <h3 className="text-base font-bold text-slate-900 flex items-center space-x-2">
             <span>{t.biomarkersFound}</span>
             <span className="px-2 py-0.5 rounded-full text-xs font-bold bg-slate-200 text-slate-700">
-              {biomarkers.length}
+              {biomarkers.length} Total Tests
             </span>
           </h3>
           <p className="text-xs text-slate-500 mt-0.5">
-            Individual biomarker breakdown with clinical reference limits and plain-language definitions.
+            Full biomarker breakdown showing observed values, lab reference intervals, and clinical meaning.
           </p>
         </div>
 
-        {/* Filter Pills */}
-        <div className="flex items-center space-x-2 bg-slate-100 p-1 rounded-xl text-xs font-semibold">
-          <button
-            onClick={() => setFilter('all')}
-            className={`px-3 py-1.5 rounded-lg transition-all ${
-              filter === 'all'
-                ? 'bg-white text-slate-900 shadow-sm'
-                : 'text-slate-600 hover:text-slate-900'
-            }`}
-          >
-            All ({biomarkers.length})
-          </button>
-          <button
-            onClick={() => setFilter('abnormal')}
-            className={`px-3 py-1.5 rounded-lg transition-all flex items-center space-x-1 ${
-              filter === 'abnormal'
-                ? 'bg-amber-500 text-white shadow-sm'
-                : 'text-amber-700 hover:bg-amber-100'
-            }`}
-          >
-            <AlertCircle className="w-3.5 h-3.5" />
-            <span>{t.abnormalMarkers} ({abnormalCount})</span>
-          </button>
-          <button
-            onClick={() => setFilter('normal')}
-            className={`px-3 py-1.5 rounded-lg transition-all flex items-center space-x-1 ${
-              filter === 'normal'
-                ? 'bg-emerald-600 text-white shadow-sm'
-                : 'text-emerald-700 hover:bg-emerald-100'
-            }`}
-          >
-            <CheckCircle2 className="w-3.5 h-3.5" />
-            <span>{t.normalMarkers} ({normalCount})</span>
-          </button>
+        {/* Search & Filter Controls */}
+        <div className="flex flex-wrap items-center gap-2.5 w-full lg:w-auto">
+          {/* Quick Search */}
+          <div className="relative flex-1 sm:w-56">
+            <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-3 pointer-events-none" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search tests (e.g. Creatinine)..."
+              className="w-full pl-8 pr-7 py-1.5 bg-white border border-slate-300 rounded-xl text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-clinical-500"
+            />
+            {searchQuery && (
+              <button
+                onClick={() => setSearchQuery('')}
+                className="absolute right-2.5 top-2.5 text-slate-400 hover:text-slate-600"
+              >
+                <X className="w-3.5 h-3.5" />
+              </button>
+            )}
+          </div>
+
+          {/* Filter Pills */}
+          <div className="flex items-center space-x-1.5 bg-slate-100 p-1 rounded-xl text-xs font-semibold">
+            <button
+              onClick={() => setFilter('all')}
+              className={`px-3 py-1.5 rounded-lg transition-all ${
+                filter === 'all'
+                  ? 'bg-white text-slate-900 shadow-sm'
+                  : 'text-slate-600 hover:text-slate-900'
+              }`}
+            >
+              All ({biomarkers.length})
+            </button>
+            <button
+              onClick={() => setFilter('abnormal')}
+              className={`px-3 py-1.5 rounded-lg transition-all flex items-center space-x-1 ${
+                filter === 'abnormal'
+                  ? 'bg-amber-500 text-white shadow-sm'
+                  : 'text-amber-700 hover:bg-amber-100'
+              }`}
+            >
+              <AlertCircle className="w-3.5 h-3.5" />
+              <span>{t.abnormalMarkers} ({abnormalCount})</span>
+            </button>
+            <button
+              onClick={() => setFilter('normal')}
+              className={`px-3 py-1.5 rounded-lg transition-all flex items-center space-x-1 ${
+                filter === 'normal'
+                  ? 'bg-emerald-600 text-white shadow-sm'
+                  : 'text-emerald-700 hover:bg-emerald-100'
+              }`}
+            >
+              <CheckCircle2 className="w-3.5 h-3.5" />
+              <span>{t.normalMarkers} ({normalCount})</span>
+            </button>
+          </div>
         </div>
       </div>
 

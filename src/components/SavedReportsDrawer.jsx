@@ -1,6 +1,5 @@
 import React from 'react';
 import { Database, Trash2, ArrowRight, Download, Calendar, User, Activity, X } from 'lucide-react';
-import { exportReportsBackup } from '../utils/storage.js';
 
 export function SavedReportsDrawer({
   isOpen,
@@ -8,6 +7,7 @@ export function SavedReportsDrawer({
   reports,
   onSelectReport,
   onDeleteReport,
+  onExport,
   t
 }) {
   if (!isOpen) return null;
@@ -27,7 +27,7 @@ export function SavedReportsDrawer({
                 {t.savedReportsTitle}
               </h3>
               <p className="text-[11px] text-slate-500">
-                {reports.length} report(s) saved in local device storage
+                {reports.length} report(s) saved to your account
               </p>
             </div>
           </div>
@@ -107,7 +107,7 @@ export function SavedReportsDrawer({
         {/* Footer actions */}
         <div className="p-4 border-t border-slate-200 bg-slate-50 flex items-center justify-between">
           <button
-            onClick={exportReportsBackup}
+            onClick={onExport}
             disabled={reports.length === 0}
             className="flex items-center space-x-1.5 text-xs font-semibold text-slate-700 hover:text-slate-900 disabled:opacity-40"
           >

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { UploadCloud, FileText, ClipboardList, CheckCircle2, AlertCircle, ArrowRight } from 'lucide-react';
+import { UploadCloud, FileText, ClipboardList, CheckCircle2, AlertCircle, ArrowRight, Loader2 } from 'lucide-react';
+import { extractTextFromPDF } from '../utils/pdfExtractor.js';
 
 export function FileUpload({
   onAnalyze,
@@ -11,6 +12,8 @@ export function FileUpload({
   const [pastedText, setPastedText] = useState(currentRawText || '');
   const [dragActive, setDragActive] = useState(false);
   const [uploadedFileName, setUploadedFileName] = useState('');
+
+  const [isExtractingPDF, setIsExtractingPDF] = useState(false);
 
   const handleDrag = (e) => {
     e.preventDefault();
@@ -37,15 +40,39 @@ export function FileUpload({
     }
   };
 
-  const handleFile = (file) => {
+  const handleFile = async (file) => {
     setUploadedFileName(file.name);
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      const content = event.target.result;
-      setPastedText(content);
-      onAnalyze(content);
-    };
-    reader.readAsText(file);
+    
+    // Check if the uploaded file is a PDF
+    const isPDF = file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf');
+    
+    if (isPDF) {
+      setIsExtractingPDF(true);
+      try {
+        const text = await extractTextFromPDF(file);
+        setIsExtractingPDF(false);
+        setPastedText(text);
+        onAnalyze(text);
+      } catch (err) {
+        console.error('PDF parsing error, falling back to text reader:', err);
+        setIsExtractingPDF(false);
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          const content = event.target.result;
+          setPastedText(content);
+          onAnalyze(content);
+        };
+        reader.readAsText(file);
+      }
+    } else {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const content = event.target.result;
+        setPastedText(content);
+        onAnalyze(content);
+      };
+      reader.readAsText(file);
+    }
   };
 
   const handleSubmitText = () => {
@@ -118,14 +145,19 @@ export function FileUpload({
                 {t.uploadSubtitle}
               </p>
 
-              {uploadedFileName ? (
+              {isExtractingPDF ? (
+                <div className="inline-flex items-center space-x-2 px-4 py-2 rounded-xl bg-clinical-50 text-clinical-700 border border-clinical-200 text-xs font-semibold animate-pulse">
+                  <Loader2 className="w-4 h-4 text-clinical-600 animate-spin" />
+                  <span>Extracting medical report from PDF...</span>
+                </div>
+              ) : uploadedFileName ? (
                 <div className="inline-flex items-center space-x-2 px-4 py-2 rounded-xl bg-emerald-50 text-emerald-800 border border-emerald-200 text-xs font-semibold">
                   <CheckCircle2 className="w-4 h-4 text-emerald-600" />
                   <span>File Selected: <strong>{uploadedFileName}</strong></span>
                 </div>
               ) : (
                 <div className="inline-flex items-center space-x-2 px-4 py-2 rounded-xl bg-slate-100 text-slate-600 text-xs font-semibold">
-                  <span>Supports Blood Tests (CBC), Lipid, Glucose, Kidney, and Liver Reports</span>
+                  <span>Supports Blood Tests (CBC), Lipid, Glucose, Kidney, and Liver Reports (PDF, TXT, CSV)</span>
                 </div>
               )}
             </div>

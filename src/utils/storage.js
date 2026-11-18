@@ -1,64 +1,67 @@
-const STORAGE_KEY = 'ai_health_interpreter_saved_reports';
-
-/**
- * Loads all saved reports from localStorage.
- */
-export function getSavedReports() {
-  try {
-    const data = localStorage.getItem(STORAGE_KEY);
-    return data ? JSON.parse(data) : [];
-  } catch (e) {
-    console.error('Failed to load saved reports', e);
-    return [];
+async function reportsRequest(getToken, options = {}, query = '') {
+  const endpoint = import.meta.env.VITE_REPORTS_API_URL;
+  if (!endpoint) {
+    throw new Error('Report storage is not configured. Set VITE_REPORTS_API_URL.');
   }
-}
 
-/**
- * Saves a new report to localStorage.
- */
-export function saveReportToStorage(reportData) {
-  try {
-    const existing = getSavedReports();
-    const newEntry = {
-      id: 'REP-' + Date.now(),
-      savedAt: new Date().toLocaleString(),
-      patient: reportData.patient,
-      overallIndex: reportData.overallIndex,
-      overallUrgency: reportData.overallUrgency,
-      rawText: reportData.rawText,
-      biomarkersCount: reportData.biomarkers?.length || 0,
-      abnormalCount: reportData.biomarkers?.filter(b => b.status !== 'NORMAL').length || 0
-    };
+  const token = await getToken();
+  if (!token) {
+    throw new Error('Your sign-in session has expired. Sign in again to access saved reports.');
+  }
 
-    const updated = [newEntry, ...existing.slice(0, 19)]; // Keep up to 20 reports
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
-    return newEntry;
-  } catch (e) {
-    console.error('Failed to save report', e);
+  const baseUrl = endpoint.replace(/\/+$/, '');
+  const url = query ? `${baseUrl}?${query}` : baseUrl;
+  const response = await fetch(url, {
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+      Authorization: `Bearer ${token}`
+    }
+  });
+
+  if (response.status === 204) {
     return null;
   }
-}
 
-/**
- * Deletes a report by ID.
- */
-export function deleteReportFromStorage(id) {
+  let result;
   try {
-    const existing = getSavedReports();
-    const filtered = existing.filter(r => r.id !== id);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(filtered));
-    return filtered;
-  } catch (e) {
-    console.error('Failed to delete report', e);
-    return [];
+    result = await response.json();
+  } catch {
+    throw new Error(`Report service returned an invalid response (${response.status}).`);
   }
+  if (!response.ok) {
+    throw new Error(result?.error || `Report request failed (${response.status}).`);
+  }
+
+  return result;
 }
 
-/**
- * Exports all reports as a JSON backup file.
- */
-export function exportReportsBackup() {
-  const reports = getSavedReports();
+export async function getSavedReports(getToken) {
+  const result = await reportsRequest(getToken);
+  if (!Array.isArray(result?.reports)) {
+    throw new Error('Report service returned an invalid report list.');
+  }
+  return result.reports;
+}
+
+export async function saveReportToStorage(reportData, getToken) {
+  const result = await reportsRequest(getToken, {
+    method: 'POST',
+    body: JSON.stringify(reportData)
+  });
+  if (!result?.report?.id) {
+    throw new Error('Report service did not confirm the saved report.');
+  }
+  return result.report;
+}
+
+export async function deleteReportFromStorage(id, getToken) {
+  return reportsRequest(getToken, { method: 'DELETE' }, `id=${encodeURIComponent(id)}`);
+}
+
+export async function exportReportsBackup(getToken) {
+  const reports = await getSavedReports(getToken);
   const blob = new Blob([JSON.stringify(reports, null, 2)], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');

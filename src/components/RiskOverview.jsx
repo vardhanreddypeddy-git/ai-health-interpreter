@@ -1,5 +1,5 @@
 import React from 'react';
-import { Heart, Activity, Droplets, ShieldAlert, Sparkles, CheckCircle, AlertTriangle, AlertOctagon, Bookmark, Check } from 'lucide-react';
+import { Heart, Activity, Droplets, Sparkles, CheckCircle, AlertTriangle, AlertOctagon, Bookmark, Check, Award } from 'lucide-react';
 
 export function RiskOverview({
   patient,
@@ -9,6 +9,7 @@ export function RiskOverview({
   risks,
   onSaveReport,
   isSaved,
+  isSaving,
   t
 }) {
   const urgencyConfig = {
@@ -52,6 +53,7 @@ export function RiskOverview({
   const currentUrgency = urgencyConfig[overallUrgency] || urgencyConfig.moderate;
   const UrgencyIcon = currentUrgency.icon;
 
+  const wellnessScore = risks.wellness?.score ?? overallIndex;
   const domainCards = [
     {
       id: 'cardio',
@@ -59,7 +61,7 @@ export function RiskOverview({
       score: risks.cardio?.score || 10,
       factors: risks.cardio?.factors || [],
       icon: Heart,
-      color: risks.cardio?.score >= 60 ? 'rose' : risks.cardio?.score >= 35 ? 'amber' : 'emerald'
+      isRiskCard: true
     },
     {
       id: 'metabolic',
@@ -67,31 +69,23 @@ export function RiskOverview({
       score: risks.metabolic?.score || 10,
       factors: risks.metabolic?.factors || [],
       icon: Activity,
-      color: risks.metabolic?.score >= 60 ? 'rose' : risks.metabolic?.score >= 35 ? 'amber' : 'emerald'
-    },
-    {
-      id: 'kidney',
-      name: t.riskCategories.kidney,
-      score: risks.kidney?.score || 10,
-      factors: risks.kidney?.factors || [],
-      icon: Droplets,
-      color: risks.kidney?.score >= 60 ? 'rose' : risks.kidney?.score >= 35 ? 'amber' : 'emerald'
-    },
-    {
-      id: 'liver',
-      name: t.riskCategories.liver,
-      score: risks.liver?.score || 10,
-      factors: risks.liver?.factors || [],
-      icon: ShieldAlert,
-      color: risks.liver?.score >= 60 ? 'rose' : risks.liver?.score >= 35 ? 'amber' : 'emerald'
+      isRiskCard: true
     },
     {
       id: 'anemia',
       name: t.riskCategories.anemia,
       score: risks.anemia?.score || 10,
       factors: risks.anemia?.factors || [],
-      icon: Sparkles,
-      color: risks.anemia?.score >= 60 ? 'rose' : risks.anemia?.score >= 35 ? 'amber' : 'emerald'
+      icon: Droplets,
+      isRiskCard: true
+    },
+    {
+      id: 'wellness',
+      name: t.riskCategories.wellness,
+      score: wellnessScore,
+      factors: [],
+      icon: Award,
+      isRiskCard: false // wellness = higher is better
     }
   ];
 
@@ -171,9 +165,9 @@ export function RiskOverview({
             {onSaveReport && (
               <button
                 onClick={onSaveReport}
-                disabled={isSaved}
+                disabled={isSaved || isSaving}
                 className={`no-print flex items-center justify-center space-x-1.5 px-4 py-3 rounded-2xl text-xs font-bold transition-all w-full sm:w-auto cursor-pointer ${
-                  isSaved
+                  isSaved || isSaving
                     ? 'bg-emerald-500 text-white shadow-md'
                     : 'bg-white/15 hover:bg-white/25 text-white border border-white/20'
                 }`}
@@ -183,6 +177,8 @@ export function RiskOverview({
                     <Check className="w-4 h-4 text-white" />
                     <span>{t.savedSuccess}</span>
                   </>
+                ) : isSaving ? (
+                  <span>Saving report...</span>
                 ) : (
                   <>
                     <Bookmark className="w-4 h-4 text-slate-300" />
@@ -209,34 +205,36 @@ export function RiskOverview({
 
       </div>
 
-      {/* Disease Risk Prediction Cards (5 Pillars) */}
+      {/* Health Analysis Cards (4 Categories) */}
       <div>
         <div className="flex items-center justify-between mb-3.5">
           <h3 className="text-sm font-bold text-slate-800 uppercase tracking-wider flex items-center space-x-2">
             <span>{t.riskStratification}</span>
           </h3>
           <span className="text-xs text-slate-500 font-medium">
-            Calculated via Multivariable Clinical Biomarker Association
+            Based on your biomarker values
           </span>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {domainCards.map((card) => {
             const Icon = card.icon;
-            const progressColor = 
-              card.score >= 60 ? 'bg-rose-500' :
-              card.score >= 35 ? 'bg-amber-500' :
-              'bg-emerald-500';
 
-            const scoreBg = 
-              card.score >= 60 ? 'bg-rose-50 text-rose-700 border-rose-200' :
-              card.score >= 35 ? 'bg-amber-50 text-amber-700 border-amber-200' :
-              'bg-emerald-50 text-emerald-700 border-emerald-200';
+            // For wellness card: high score = good (green). For risk cards: high score = bad (red).
+            const displayScore = card.isRiskCard ? card.score : card.score;
+            const progressColor =
+              card.isRiskCard
+                ? (card.score >= 60 ? 'bg-rose-500' : card.score >= 35 ? 'bg-amber-500' : 'bg-emerald-500')
+                : (card.score >= 75 ? 'bg-emerald-500' : card.score >= 50 ? 'bg-amber-500' : 'bg-rose-500');
 
-            const riskLevelText =
-              card.score >= 60 ? 'High' :
-              card.score >= 35 ? 'Moderate' :
-              'Optimal';
+            const scoreBg =
+              card.isRiskCard
+                ? (card.score >= 60 ? 'bg-rose-50 text-rose-700 border-rose-200' : card.score >= 35 ? 'bg-amber-50 text-amber-700 border-amber-200' : 'bg-emerald-50 text-emerald-700 border-emerald-200')
+                : (card.score >= 75 ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : card.score >= 50 ? 'bg-amber-50 text-amber-700 border-amber-200' : 'bg-rose-50 text-rose-700 border-rose-200');
+
+            const statusLabel = card.isRiskCard
+              ? (card.score >= 60 ? 'Needs Attention' : card.score >= 35 ? 'Monitor' : 'Good')
+              : (card.score >= 75 ? 'Excellent' : card.score >= 50 ? 'Fair' : 'Needs Attention');
 
             return (
               <div
@@ -249,7 +247,7 @@ export function RiskOverview({
                       <Icon className="w-4 h-4" />
                     </div>
                     <span className={`text-xs font-bold px-2 py-0.5 rounded-md border ${scoreBg}`}>
-                      {riskLevelText} ({card.score}%)
+                      {statusLabel} ({displayScore}%)
                     </span>
                   </div>
 
@@ -261,7 +259,7 @@ export function RiskOverview({
                   <div className="w-full bg-slate-100 rounded-full h-2 mb-3 overflow-hidden">
                     <div
                       className={`h-2 rounded-full transition-all duration-700 ${progressColor}`}
-                      style={{ width: `${card.score}%` }}
+                      style={{ width: `${displayScore}%` }}
                     />
                   </div>
 
@@ -276,10 +274,15 @@ export function RiskOverview({
                       ))}
                     </ul>
                   )}
+                  {card.id === 'wellness' && (
+                    <p className="text-[11px] text-slate-500 leading-tight">
+                      Computed from all your biomarker results
+                    </p>
+                  )}
                 </div>
 
                 <div className="text-[10px] text-slate-400 border-t border-slate-100 pt-2 mt-2">
-                  Stratified risk index
+                  {card.isRiskCard ? 'Lower is better' : 'Higher is better'}
                 </div>
               </div>
             );
