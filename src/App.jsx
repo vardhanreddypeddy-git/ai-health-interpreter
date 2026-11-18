@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import { useAuth, useClerk, useUser } from '@clerk/clerk-react';
+import { useAuth, useClerk, useUser } from '@clerk/react';
 import { Header } from './components/Header.jsx';
 import { FileUpload } from './components/FileUpload.jsx';
 import { PatientDetailsCard } from './components/PatientDetailsCard.jsx';
