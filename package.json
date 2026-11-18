@@ -3,13 +3,19 @@
   "version": "1.0.0",
   "description": "Educational lab report interpreter with rule-based health scoring and multilingual explanations",
   "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "test": "node --test api/reports-handler.test.js",
     "preview": "vite preview"
   },
   "dependencies": {
+    "@clerk/backend": "^3.30.0",
     "@clerk/clerk-react": "^5.61.12",
+    "firebase-admin": "^14.5.1",
     "lucide-react": "^1.16.0",
     "pdfjs-dist": "^6.5.438",
     "react": "^19.0.0",

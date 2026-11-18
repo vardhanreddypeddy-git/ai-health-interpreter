@@ -3,4 +3,6 @@ dist
 .env
 .env.*
 !.env.example
+serviceAccountKey.json
+*firebase-adminsdk*.json
 *.log

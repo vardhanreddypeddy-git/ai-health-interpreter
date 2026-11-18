@@ -1,8 +1,5 @@
 async function reportsRequest(getToken, options = {}, query = '') {
-  const endpoint = import.meta.env.VITE_REPORTS_API_URL;
-  if (!endpoint) {
-    throw new Error('Report storage is not configured. Set VITE_REPORTS_API_URL.');
-  }
+  const endpoint = import.meta.env.VITE_REPORTS_API_URL || '/api/reports';
 
   const token = await getToken();
   if (!token) {

@@ -64,7 +64,7 @@ An educational, multilingual prototype that extracts supported biomarkers from l
                     │ Clerk session token
                     ▼
 ┌─────────────────────────────────────────┐
-│ Firebase HTTPS Function                 │
+│ Vercel Function                         │
 │ Verifies Clerk token; uses Admin SDK    │
 │ Stores each user's reports separately  │
 └───────────────────┬─────────────────────┘
@@ -81,7 +81,7 @@ An educational, multilingual prototype that extracts supported biomarkers from l
 ## 🚀 How to Run
 
 ### Prerequisites
-- Node.js 20+ and npm for the web app. Firebase Functions deploy with the Node.js 22 runtime.
+- Node.js 22+ and npm for the web app and Vercel API.
 
 ### Quick Start
 ```bash
@@ -101,28 +101,29 @@ In another terminal, build the production bundle:
 npm run build
 ```
 
-Open `http://localhost:3000`. To use saved reports, configure and deploy the Firebase Functions API below, then set `VITE_REPORTS_API_URL` in `.env.local`.
-Run the Functions payload tests with `npm --prefix functions test`.
+Open `http://localhost:3000`. The `/api/reports` endpoint is provided by Vercel and is not served by Vite's development server. Run the API tests with `npm test`.
 
-### Configure Clerk and Firebase report storage
+### Free-tier deployment with Vercel and Firestore
 
-1. Create a Clerk application and set its publishable key as `VITE_CLERK_PUBLISHABLE_KEY`.
-2. Create a Firebase project and enable Cloud Firestore.
-3. Log in to Firebase CLI, select the project, and install the Functions dependencies:
+This deployment uses a Vercel Function for the authenticated API and Cloud Firestore on its Spark plan. Firebase Cloud Functions are not used, so do not deploy the `functions/` directory. Vercel Hobby and Firebase Spark have usage limits; review their current limits and avoid treating the service as unlimited.
+
+1. Create a Firebase project and enable Cloud Firestore. Keep the included Firestore rules, which deny direct browser access.
+2. Deploy only the Firestore rules:
    ```bash
    npx firebase-tools login
    npx firebase-tools use --add
-   npm --prefix functions install
+   npx firebase-tools deploy --only firestore:rules
    ```
-   Deploying Cloud Functions requires a Firebase plan that supports Functions and billing for any applicable usage.
-4. Configure `ALLOWED_ORIGINS` in `functions/.env.<project-id>` with the exact local and production app origins, separated by commas. Store the Clerk secret in Firebase Secret Manager and deploy:
-   ```bash
-   npx firebase-tools functions:secrets:set CLERK_SECRET_KEY
-   npx firebase-tools deploy --only functions,firestore:rules
-   ```
-5. Copy the deployed `reports` function URL into `VITE_REPORTS_API_URL` in `.env.local`, then restart the web app.
+3. Create a dedicated Google Cloud service account for the API, grant it only the **Cloud Datastore User** role, and create a JSON key. Do not use an Owner account. Add the complete JSON key as the server-only `FIREBASE_SERVICE_ACCOUNT_JSON` environment variable in Vercel.
+4. In the Vercel project's **Settings → Environment Variables**, set the following for Production:
+   - `VITE_CLERK_PUBLISHABLE_KEY`: the Clerk publishable key.
+   - `VITE_REPORTS_API_URL`: `/api/reports`.
+   - `CLERK_SECRET_KEY`: the matching Clerk secret key.
+   - `FIREBASE_SERVICE_ACCOUNT_JSON`: the service-account JSON from step 3.
+   - `ALLOWED_ORIGINS`: the exact app origin, such as `https://your-project.vercel.app`, without a trailing slash.
+5. Redeploy the Vercel project after adding or changing environment variables. The browser sends Clerk session tokens to `/api/reports`; the Vercel Function verifies the token and uses the service account to access reports under that Clerk user ID. Keep the Clerk secret and service-account JSON server-side only. Never prefix them with `VITE_` or commit them.
 
-The browser sends Clerk session tokens to the HTTPS Function. The Function verifies the token and stores reports under that Clerk user ID. Firestore rules deny direct client reads and writes; the Admin SDK in the Function bypasses those rules. Keep `CLERK_SECRET_KEY` in Firebase Secret Manager and never commit it. The Firebase/Clerk direct integration is deprecated and is not used by this project. Redeploy after changing `ALLOWED_ORIGINS`.
+Use the development Clerk keys for testing. Clerk production setup requires a custom domain you own; a `vercel.app` hostname alone is not a production Clerk domain. The optional Gemini chat is separate and does not require Firebase Gemini features.
 
 ---
 
@@ -133,9 +134,10 @@ ai-health-interpreter/
 ├── index.html                  # HTML entry point with Tailwind CDN & typography
 ├── package.json                # Project dependencies and npm scripts
 ├── vite.config.js              # Vite configuration
-├── firebase.json               # Firebase Functions and Firestore rules configuration
+├── firebase.json              # Firestore rules configuration
 ├── firestore.rules             # Denies direct browser database access
-├── functions/                  # Clerk-verifying Firebase HTTPS API
+├── api/                        # Clerk-verifying Vercel API and tests
+├── functions/                  # Legacy Firebase Functions implementation; not used on Spark
 ├── test-reports/               # Realistic sample lab report text files
 │   ├── cardio-risk-report.txt
 │   ├── diabetes-report.txt
